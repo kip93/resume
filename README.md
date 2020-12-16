@@ -7,7 +7,7 @@
 
 [![GitHub contributors count badge](https://img.shields.io/github/contributors/kip93/resume?style=flat-square)](https://github.com/kip93/resume/graphs/contributors)
 [![GitHub commit activity badge](https://img.shields.io/github/commit-activity/m/kip93/resume?style=flat-square)](https://github.com/kip93/resume/graphs/commit-activity)
-[![GitHub last commit badge](https://img.shields.io/github/last-commit/kip93/resume?style=flat-square)](https://github.com/kip93/resume/commits/master)
+[![GitHub last commit badge](https://img.shields.io/github/last-commit/kip93/resume?style=flat-square)](https://github.com/kip93/resume/commits/main)
 [![GitHub issues badge](https://img.shields.io/github/issues/kip93/resume?style=flat-square)](https://github.com/kip93/resume/issues)
 [![GitHub pull requests badge](https://img.shields.io/github/issues-pr/kip93/resume?style=flat-square)](https://github.com/kip93/resume/pulls)
 [![GitHub repo size badge](https://img.shields.io/github/repo-size/kip93/resume?style=flat-square)](https://github.com/kip93/resume)
