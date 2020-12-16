@@ -1,0 +1,27 @@
+# Ignore everything except for specific files
+/**/*
+
+# Résumé LaTeX class
+!/resume.cls
+
+# Example files
+## Example usage
+!/example.tex
+## Example profile picture
+!/example.png
+## Example output as PDF
+!/example.pdf
+## Example output as PNGs
+!/example-*.png
+
+# This file
+!/.gitignore
+
+# License
+!/LICENSE
+
+# Makefile used to build example
+!/Makefile
+
+# Readme
+!/readme.md

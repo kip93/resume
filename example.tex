@@ -1,0 +1,109 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% An example Résumé using a custom template.                                   %
+%                                                                              %
+% Author:   Kip (https://github.com/kip93/).                                   %
+% Source:   https://github.com/kip93/resume/                                   %
+% License:  BSD 3-Clause                                                       %
+% Created:  2020-09-27                                                         %
+% Updated:  2020-12-15                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% This loads the `resume.cls` file which defines all the commands used beneath.
+\documentclass{resume}
+
+% Auto generator of placeholder text, can be removed (once all placehodlder text `\lipsum[...]` has been removed).
+\RequirePackage{lipsum}
+
+% All configuration should be made inside of this `resume` block.
+\begin{resume}
+
+    % Header
+    % ------------------------------------------------------------------------ %
+
+    % Path to a square profile picture.
+    \profilepicture{./example.png}
+    % Your name (Last name, then first name).
+    \name{Doe}{John}
+    % Your job title.
+    \jobtitle{Professional Googler}
+    % Your birthday (format {YYYY}{MM}{DD}).
+    \birthday{1970}{01}{01}
+    % Your contact e-mail.
+    \email{john@doe.com}
+    % Your phone number.
+    \phone{+1 (123) 456-7890}
+    % Your linkedin profile (the last part in the url, right after https://www.linkedin.com/in/).
+    \linkedin{johndoe}  % Optional.
+    % Your GitHub username.
+    \github{johndoe70}  % Optional.
+
+    % Left column
+    % ------------------------------------------------------------------------ %
+
+    % Your summary / introduction text (`\lipsum[1-1]` is just placeholder text, and can be safely removed).
+    \summary{\lipsum[1-1]}  % Optional.
+
+    % A set of skills under a given category.
+    \begin{skillset}{Markup}
+        % A single skill that corresponds to the encompasing skill set.
+        % The format is {Skill name}{Skill score in a 1-5 range).
+        \skill{\LaTeX}{5}
+        % You can declare as many skills as you want inside a skill set.
+        \skill{Markdown}{5}
+        \skill{HTML}{4}
+    \end{skillset}
+
+    % You can also declare as many skill sets as you need, but there must be at least one.
+    \begin{skillset}{Programming}
+        % Skill sets should always have at least a single skill in them.
+        \skill{Python}{5}
+        \skill{Bash}{5}
+        \skill{Java}{5}
+        \skill{C/C++}{3}
+    \end{skillset}
+
+    \begin{skillset}{Tools}
+        \skill{Docker}{4}
+        \skill{Kubernetes}{5}
+    \end{skillset}
+
+    \begin{skillset}{Operating Systems}
+        % If you want to assert dominance with your skills, you can set them to
+        % be over 9000, the resume will handle them (and just cast them to range).
+        \skill{Linux}{9001}
+        \skill{BSD}{4}
+        % You can even use negatives.
+        \skill{Windows}{-1}
+        \skill{MacOS}{4}
+    \end{skillset}
+
+    \begin{skillset}{Languages}
+        \skill{English}{5}
+        \skill{Spanish}{4}
+        \skill{Quenya}{2}
+    \end{skillset}
+
+    % Right column
+    % ------------------------------------------------------------------------ %
+
+    % Your work experience. Format is {Start}{End}{Eployer}{Job title}{Job description}
+    % (`\lipsum[2-2]` is just placeholder text, and can be safely removed).
+    \experience{2019/03}{Present}{Speedwagon Fundation}{Lead Googler}{\lipsum[2-2]}  % Optional.
+    % You can declare as many or as few experience entries as needed.
+    % The description field is optional and if empty it will be properly handled.
+    \experience{2017/08}{2019/02}{Speedwagon Fundation}{Intern Googler}{}  % Optional.
+
+    % Your education. Format is {Start}{End}{University}{Title}{Notes} (`\lipsum[3-3]` is just placeholder text, and can be safely removed).
+    \education{2016}{2018}{University of Somewhere}{M.Sc. in Googling}{\lipsum[3-3]}  % Optional.
+    % You can declare as many or as few education entries as needed.
+    % The notes field is optional and if empty it will be properly handled.
+    \education{2013}{2016}{University of Somewhere}{B.Sc. in Googling}{}  % Optional.
+
+    % Your publications. Format is {Date}{Title}{URL}{Notes} (`\lipsum[4-4]` is just placeholder text, and can be safely removed).
+    \publication{2020}{How to Google with the best of them}{https://www.example.com/}{\lipsum[4-4]}  % Optional.
+    % You can declare as many or as few publications as needed.
+    % The description field is optional and if empty it will be properly handled.
+    \publication{2019}{Googling like a pro}{https://www.example.com/}{}  % Optional.
+
+% This is what actually builds the Résumé, no other loose text should be placed.
+\end{resume}
