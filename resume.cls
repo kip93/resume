@@ -5,7 +5,7 @@
 % Source:   https://github.com/kip93/resume/                                   %
 % License:  BSD 3-Clause                                                       %
 % Created:  2020-09-27                                                         %
-% Updated:  2020-12-16                                                         %
+% Updated:  2020-12-17                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{resume}[2020-12-16 My own Résumé/CV class.]
+\ProvidesClass{resume}[2020-12-17 My own Résumé/CV class.]
 \LoadClass{article}[]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,6 +118,15 @@
 % Add tools to allow more complex LaTeX structures.
 % https://ctan.org/pkg/etoolbox
 \RequirePackage{etoolbox}[]
+
+% Suppress warnings
+% ---------------------------------------------------------------------------- %
+
+\RequirePackage{silence}
+
+% This is a false positive, already validated that alignment is correct.
+\WarningFilter{textpos}{environment textblock* not in vertical mode.}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % User facing commands                                                         %
