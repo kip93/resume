@@ -330,9 +330,9 @@
 %     * Colour
 %     * Text
 %
-\newcommand{\coloured}[2]{{%
-    \color{#1}#2%
-}}
+\newcommand{\coloured}[2]{%
+    \textcolor{#1}{#2}%
+}
 
 % Output text with specific style.
 %
@@ -340,7 +340,7 @@
 %     * Style
 %     * Text
 %
-\newcommand{\stylised}[2]{{%
+\newcommand{\stylised}[2]{%
     \begin{stringswitch}{#1}%
         \case{bold}{\textbf{#2}}%
         \case{emphasised}{\emph{#2}}%
@@ -355,9 +355,9 @@
         \case{underlined}{\underline{#2}}%
         \case{uppercase}{\uppercase{#2}}%
         \default{%
-        \ClassError{Résumé}{Unknown style '#1'}%
-        {
-            Valid styles are {
+            \ClassError{Résumé}{Unknown style '#1'}%
+            {
+                Valid styles are {
                     'bold', 'emphasised', 'italic', 'lowercase', 'medium',
                     'mono', 'normal', 'regular' (alias for normal), 'slanted',
                     'smallcase', 'underlined', 'uppercase'.
@@ -365,7 +365,7 @@
             }%
         }%
     \end{stringswitch}%
-}}
+}
 
 % Output text with specific size.
 %
@@ -373,7 +373,7 @@
 %     * Size
 %     * Text
 %
-\newcommand{\sized}[2]{{%
+\newcommand{\sized}[2]{%
     \IfInteger{#1}{}{%
         \ClassError{Résumé}{Sized with non integer '#1'}%
         {Sized can only handle integers.\MessageBreak}%
@@ -392,7 +392,7 @@
         \case{=}{+5}{\Huge#2}%
         \case{>}{+5}{\Huge#2\ClassWarning{Résumé}{Size #1 is too big, casting to +5}}%
     \end{numswitch}%
-}}
+}
 
 % Output text with specific colour, style, and size.
 %
@@ -412,9 +412,9 @@
 %     * URL
 %     * Display text (optional)
 %
-\newcommand{\link}[2]{{%
+\newcommand{\link}[2]{%
     \def\@displaytext{#2}\ifdefempty{\@displaytext}{\url{#1}}{\href{#1}{#2}}%
-}}
+}
 
 % Output a coloured link.
 %
@@ -423,9 +423,9 @@
 %     * URL
 %     * Display text (optional)
 %
-\newcommand{\colouredlink}[3]{{%
+\newcommand{\colouredlink}[3]{%
     \coloured{#1}{\link{#2}{#3}}%
-}}
+}
 
 % Output a stylised link.
 %
@@ -434,9 +434,9 @@
 %     * URL
 %     * Display text (optional)
 %
-\newcommand{\stylisedlink}[3]{{%
+\newcommand{\stylisedlink}[3]{%
     \stylised{#1}{\link{#2}{#3}}%
-}}
+}
 
 % Output a link with specific colour, style, and size.
 %
@@ -447,9 +447,9 @@
 %     * URL
 %     * Display text (optional)
 %
-\newcommand{\formattedlink}[5]{{%
+\newcommand{\formattedlink}[5]{%
     \formatted{#1}{#2}{#3}{\link{#4}{#5}}%
-}}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Internal commands                                                            %
@@ -669,13 +669,13 @@
 
 % Make the résumé left column's about me section.
 %
-\newcommand{\makesummary}[0]{{%
+\newcommand{\makesummary}[0]{%
     \ifdefempty{\@summary}{}{%
         \leftsection{About me}{\vspace{-3mm}\setlength{\parskip}{3mm}%
             \formatted{dimtext}{regular}{+0}{\@summary}%
         }\par\vspace{4mm}%
     }%
-}}
+}
 
 % Make the résumé left column's skills section.
 %
