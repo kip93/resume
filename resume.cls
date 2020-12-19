@@ -5,7 +5,7 @@
 % Source:   https://github.com/kip93/resume/                                   %
 % License:  BSD 3-Clause                                                       %
 % Created:  2020-09-27                                                         %
-% Updated:  2020-12-17                                                         %
+% Updated:  2020-12-19                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{resume}[2020-12-17 My own Résumé/CV class.]
+\ProvidesClass{resume}[2020-12-19 My own Résumé/CV class.]
 \LoadClass{article}[]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,6 +93,14 @@
 % The crosses represent bad colour combinations, while the Os are for accesible
 % ones.
 
+% These are redefined per section to have the correct colours available for use
+% from the .tex file.
+\definecolor{text}          {HTML} {000000}  % More contrasting text colour.
+\definecolor{dimtext}       {HTML} {000000}  % Less contrasting text colour.
+\definecolor{background}    {HTML} {000000}  % Main background colour.
+\definecolor{altbackground} {HTML} {000000}  % Alternate background colour.
+\definecolor{highlight}     {HTML} {000000}  % Highlight text colour.
+
 % Text positioning
 % ---------------------------------------------------------------------------- %
 
@@ -111,6 +119,13 @@
     hidelinks,  % Disable link auto format, allowing to customise links look
 }
 \urlstyle{same}  % Use the same font for URLs
+
+% String manipulation
+% ---------------------------------------------------------------------------- %
+
+% Add tools for string manipulation.
+% https://ctan.org/pkg/xstring
+\usepackage{xstring}
 
 % Extra tools
 % ---------------------------------------------------------------------------- %
@@ -160,6 +175,22 @@
 %
 \newcommand{\github}[1]{\def\@github{#1}}
 \def\@github{}
+
+% Define the GitLab username (optional).
+%
+% Arguments:
+%     * A GitLab username
+%
+\newcommand{\gitlab}[1]{\def\@gitlab{#1}}
+\def\@gitlab{}
+
+% Define the BitBucket username (optional).
+%
+% Arguments:
+%     * A BitBucket username
+%
+\newcommand{\bitbucket}[1]{\def\@bitbucket{#1}}
+\def\@bitbucket{}
 
 % Define the Job title.
 %
@@ -282,14 +313,144 @@
 \newenvironment{resume}{%
     \document        % Equivalent to `\begin{document}`.
 }{%
-    \validate        % Run some checks to show nicer error messages
-    \setmetadata     % Sets the PDF metadata
+    \validate        % Run some checks to show nicer error messages.
+    \setmetadata     % Sets the PDF metadata.
     \makebackground  % Sets the coloured background for the document.
     \makeheader      % Create the top header part of the document.
     \makeleft        % Create the left column of the document.
     \makeright       % Create the right main column of the document.
     \enddocument     % Equivalent to `\end{document}`.
 }
+
+% Utility methods
+% ---------------------------------------------------------------------------- %
+
+% Output text with specific colour.
+%
+% Arguments:
+%     * Colour
+%     * Text
+%
+\newcommand{\coloured}[2]{{%
+    \color{#1}#2%
+}}
+
+% Output text with specific style.
+%
+% Arguments:
+%     * Style
+%     * Text
+%
+\newcommand{\stylised}[2]{{%
+    \begin{stringswitch}{#1}%
+        \case{bold}{\textbf{#2}}%
+        \case{emphasised}{\emph{#2}}%
+        \case{italic}{\textit{#2}}%
+        \case{lowercase}{\lowercase{#2}}%
+        \case{medium}{\textmd{#2}}%
+        \case{mono}{\texttt{#2}}%
+        \case{normal}{\textnormal{#2}}%
+        \case{regular}{\textnormal{#2}}%
+        \case{slanted}{\textsl{#2}}%
+        \case{smallcase}{\textsc{#2}}%
+        \case{underlined}{\underline{#2}}%
+        \case{uppercase}{\uppercase{#2}}%
+        \default{%
+        \ClassError{Résumé}{Unknown style '#1'}%
+        {
+            Valid styles are {
+                    'bold', 'emphasised', 'italic', 'lowercase', 'medium',
+                    'mono', 'normal', 'regular', 'slanted', 'smallcase',
+                    'underlined', 'uppercase'.
+                }.\MessageBreak
+            }%
+        }%
+    \end{stringswitch}%
+}}
+
+% Output text with specific size.
+%
+% Arguments:
+%     * Size
+%     * Text
+%
+\newcommand{\sized}[2]{{%
+    \IfInteger{#1}{}{%
+        \ClassError{Résumé}{Sized with non integer '#1'}%
+        {Sized can only handle integers.\MessageBreak}%
+    }%
+    \begin{numswitch}{#1}%
+        \case{<}{-4}{\tiny#2\ClassWarning{Résumé}{Size #1 is too small, casting to -4}}%
+        \case{=}{-4}{\tiny#2}%
+        \case{=}{-3}{\scriptsize#2}%
+        \case{=}{-2}{\footnotesize#2}%
+        \case{=}{-1}{\small#2}%
+        \case{=}{+0}{\normalsize#2}%
+        \case{=}{+1}{\large#2}%
+        \case{=}{+2}{\Large#2}%
+        \case{=}{+3}{\LARGE#2}%
+        \case{=}{+4}{\huge#2}%
+        \case{=}{+5}{\Huge#2}%
+        \case{>}{+5}{\Huge#2\ClassWarning{Résumé}{Size #1 is too big, casting to +5}}%
+    \end{numswitch}%
+}}
+
+% Output text with specific colour, style, and size.
+%
+% Arguments:
+%     * Colour
+%     * Style
+%     * Size
+%     * Text
+%
+\newcommand{\formatted}[4]{%
+    \coloured{#1}{\stylised{#2}{\sized{#3}{#4}}}%
+}
+
+% Output a link.
+%
+% Arguments:
+%     * URL
+%     * Display text (optional)
+%
+\newcommand{\link}[2]{{%
+    \def\@displaytext{#2}\ifdefempty{\@displaytext}{\url{#1}}{\href{#1}{#2}}%
+}}
+
+% Output a coloured link.
+%
+% Arguments:
+%     * Colour
+%     * URL
+%     * Display text (optional)
+%
+\newcommand{\colouredlink}[3]{{%
+    \coloured{#1}{\link{#2}{#3}}%
+}}
+
+% Output a stylised link.
+%
+% Arguments:
+%     * Style
+%     * URL
+%     * Display text (optional)
+%
+\newcommand{\stylisedlink}[3]{{%
+    \stylised{#1}{\link{#2}{#3}}%
+}}
+
+% Output a link with specific colour, style, and size.
+%
+% Arguments:
+%     * Colour
+%     * Style
+%     * Size
+%     * URL
+%     * Display text (optional)
+%
+\newcommand{\formattedlink}[5]{{%
+    \formatted{#1}{#2}{#3}{\link{#4}{#5}}%
+}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Internal commands                                                            %
@@ -298,62 +459,75 @@
 % Validation
 % ---------------------------------------------------------------------------- %
 
+% Validate the user configuration. Throws warnings and errors depending on
+% input.
+%
 \newcommand{\validate}[0]{%
     \validateheader%
     \validateleft%
     \validateright%
 }
 
+% Validate the user configuration correspondong to the header.
+%
 \newcommand{\validateheader}[0]{%
-    \ifdefempty{\@birthday}{%
+    \ifdefempty{\@birthday}{  % Birthday is mandatory.
         \ClassError{Résumé}{Birthday is missing}%
         {Check the "birthday" command.\MessageBreak}%
     }{}%
-    \ifdefempty{\@email}{%
+    \ifdefempty{\@email}{  % e-Mail is mandatory.
         \ClassError{Résumé}{e-Mail is missing}%
         {Check the "email" command.\MessageBreak}%
     }{}%
-    \ifdefempty{\@github}{%
-        \ClassWarning{Résumé}{GitHub user name is missing (URL will be skipped)}%
+    \ifdefempty{\@github}{  % GitHub username is optional.
+        \ClassWarning{Résumé}{GitHub username is missing (URL will be skipped)}%
     }{}%
-    \ifdefempty{\@jobtitle}{%
+    \ifdefempty{\@gitlab}{  % GitLab username is optional.
+        \ClassWarning{Résumé}{GitLab username is missing (URL will be skipped)}%
+    }{}%
+    \ifdefempty{\@bitbucket}{  % BitBucket username is optional.
+        \ClassWarning{Résumé}{BitBucket username is missing (URL will be skipped)}%
+    }{}%
+    \ifdefempty{\@jobtitle}{  % Job title is mandatory.
         \ClassError{Résumé}{Job title is missing}%
         {Check the "jobtitle" command.\MessageBreak}%
     }{}%
-    \ifdefempty{\@linkedin}{%
-        \ClassWarning{Résumé}{Linkedin user name is missing (URL will be skipped)}%
+    \ifdefempty{\@linkedin}{  % Linkedin username is optional.
+        \ClassWarning{Résumé}{Linkedin username is missing (URL will be skipped)}%
     }{}%
-    \ifdefempty{\@firstname}{\ifdefempty{\@lastname}{%
+    \ifdefempty{\@firstname}{\ifdefempty{\@lastname}{  % Name is mandatory.
         \ClassError{Résumé}{Name is missing}%
         {Check the "name" command.\MessageBreak}%
     }{}}{}%
-    \ifdefempty{\@firstname}{%
+    \ifdefempty{\@firstname}{  % Name is mandatory.
         \ClassError{Résumé}{First name is missing}%
         {Check the "name" command.\MessageBreak}%
     }{}%
-    \ifdefempty{\@lastname}{%
+    \ifdefempty{\@lastname}{  % Name is mandatory.
         \ClassError{Résumé}{Last name is missing}%
         {Check the "name" command.\MessageBreak}%
     }{}%
-    \ifdefempty{\@phone}{%
+    \ifdefempty{\@phone}{  % Phone number is mandatory.
         \ClassError{Résumé}{Phone number is missing}%
         {Check the "phone" command.\MessageBreak}%
     }{}%
-    \ifdefempty{\@profilepicture}{%
+    \ifdefempty{\@profilepicture}{  % Profile picture is mandatory.
         \ClassError{Résumé}{Profile picture is missing}%
         {Check the "profilepicture" command.\MessageBreak}%
     }{}%
 }
 
+% Validate the user configuration correspondong to left column.
+%
 \newcommand{\validateleft}[0]{{%
-    \ifdefempty{\@summary}{%
+    \ifdefempty{\@summary}{  % Summary is optional.
         \ClassWarning{Résumé}{Summary text is not present (section will be skipped)}%
     }{}%
-    \measure{skillsetslist}\ifnumequal{\thelength}{0}{%
+    \measure{skillsetslist}\ifnumequal{\thelength}{0}{  % Skillsets are mandatory.
         \ClassError{Résumé}{No skillset present}%
         {Check the "skillset" environment.\MessageBreak}%
     }{}%
-    \renewcommand{\do}[1]{%
+    \renewcommand{\do}[1]{  % Skillsets cannot be empty.
         \measure{skillset{##1}}\ifnumequal{\thelength}{0}{%
             \ClassError{Résumé}{Skillset "##1" is empty}%
             {Check the "skill" command.\MessageBreak}%
@@ -361,14 +535,16 @@
     }\dolistcsloop{skillsetslist}%
 }}
 
+% Validate the user configuration correspondong to the right column.
+%
 \newcommand{\validateright}[0]{%
-    \measure{experiencelist}\ifnumequal{\thelength}{0}{%
+    \measure{experiencelist}\ifnumequal{\thelength}{0}{  % Experience is optional.
         \ClassWarning{Résumé}{No experience given (section will be skipped)}%
     }{}%
-    \measure{educationlist}\ifnumequal{\thelength}{0}{%
+    \measure{educationlist}\ifnumequal{\thelength}{0}{  % Education is optional.
         \ClassWarning{Résumé}{No education given (section will be skipped)}%
     }{}%
-    \measure{publicationslist}\ifnumequal{\thelength}{0}{%
+    \measure{publicationslist}\ifnumequal{\thelength}{0}{  % Publications are optional.
         \ClassWarning{Résumé}{No publications given (section will be skipped)}%
     }{}%
 }
@@ -376,6 +552,8 @@
 % Metadata
 % ---------------------------------------------------------------------------- %
 
+% Set the PDF metadata.
+%
 \newcommand{\setmetadata}[0]{%
     \hypersetup{
         pdfauthor={\@lastname, \@firstname},
@@ -390,66 +568,72 @@
 % Background
 % ---------------------------------------------------------------------------- %
 
+% Draw the coloured background.
+%
 \newcommand{\makebackground}[0]{%
-    % Left column
-    \begin{tikzpicture}[overlay]
-        \node[
-            rectangle,
-            fill=white,
-            anchor=north west,
-            minimum width=70mm,
-            minimum height=\paperheight + 10mm,
-        ] (box) at (0mm, 5mm){};
-    \end{tikzpicture}%
-    % Header
-    \begin{tikzpicture}[overlay]
-        \node[
-            rectangle,
-            fill=darkgray,
-            anchor=north,
-            minimum width=\paperwidth + 10mm,
-            minimum height=60mm,
-        ] (box) at (\paperwidth / 2, 5mm){};
-    \end{tikzpicture}%
+    % Left column.
+    \makerectangleoverlay{white}{north west}{70mm}{\paperheight + 10mm}{0mm, 5mm}%
+    % Header.
+    \makerectangleoverlay{darkgray}{north}{\paperwidth + 10mm}{60mm}{\paperwidth / 2, 5mm}%
 }
 
 % Header
 % ---------------------------------------------------------------------------- %
 
+% Make the résumé header.
+%
 \newcommand{\makeheader}[0]{%
+    % Colours based on background, to simplify usage.
+    \colorlet{text}          {white}%
+    \colorlet{dimtext}       {lightgray}%
+    \colorlet{background}    {darkgray}%
+    \colorlet{altbackground} {black}%
+    \colorlet{highlight}     {lighthighlight}%
+    %
+    % Populate the header.
     \makepersonalinfo%
     \makeprofilepicture%
 }
 
+% Make the résumé header's text.
+%
 \newcommand{\makepersonalinfo}[0]{%
     \begin{textblock*}{0.69\paperwidth}(10mm, 4mm)\begin{flushright}{%
-            \LARGE\bfseries\color{white}%
-            \MakeUppercase{\@lastname}, {\@firstname}%
+            % Name.
+            \formatted{text}{bold}{+3}{\stylised{uppercase}{\@lastname}, {\@firstname}}%
         }\par\vspace{2mm}{%
-            \Large\color{white}%
-            \it\@jobtitle%
+            % Job title.
+            \formatted{text}{italic}{+2}{\@jobtitle}%
         }\par\vspace{3mm}{%
-            \large\color{lightgray}%
-            {\@birthday}%
+            % Birthday.
+            \formatted{dimtext}{regular}{+1}{\@birthday}%
         }\par\vspace{3mm}{%
-            \large\color{lightgray}%
-            \href{mailto:\@email}{\@email}%
-            \hspace{2mm}/\hspace{2mm}{\@phone}%
+            % e-Mail & phone.
+            \formattedlink{dimtext}{regular}{+1}{mailto:\@email}{\@email}%
+            \formatted{dimtext}{regular}{+1}{\hspace{2mm}/\hspace{2mm}{\@phone}}%
         }\par\vspace{2mm}\ifdefempty{\@linkedin}{}{{%
-            \large\color{lighthighlight}\url%
-            {https://www.linkedin.com/in/\@linkedin/}%
+            % Linkedin.
+            \formattedlink{highlight}{regular}{+1}{https://linkedin.com/in/\@linkedin/}{}%
         }\par\vspace{2mm}}\ifdefempty{\@github}{}{{%
-            \large\color{lighthighlight}\url%
-            {https://github.com/\@github/}%
+            % GitHub.
+            \formattedlink{highlight}{regular}{+1}{https://github.com/\@github/}{}%
+        }\par\vspace{2mm}}\ifdefempty{\@gitlab}{}{{%
+            % GitLab.
+            \formattedlink{highlight}{regular}{+1}{https://gitlab.com/\@gitlab/}{}%
+        }\par\vspace{2mm}}\ifdefempty{\@bitbucket}{}{{%
+            % BitBucket.
+            \formattedlink{highlight}{regular}{+1}{https://bitbucket.com/\@bitbucket/}{}%
         }\par\vspace{2mm}}%
     \end{flushright}\end{textblock*}%
 }
 
+% Make the résumé header's profile picture.
+%
 \newcommand{\makeprofilepicture}[0]{%
     \begin{tikzpicture}[overlay]
         \node[
             rectangle,
-            draw=lightgray,
+            draw=dimtext,
             line width=3mm,
             inner sep=0mm,
             anchor=north east,
@@ -464,54 +648,87 @@
 % Left column
 % ---------------------------------------------------------------------------- %
 
+% Make the résumé left column.
+%
 \newcommand{\makeleft}[0]{%
-    \newcommand\leftsection[1]{\newsection{black}{##1}}%
-    \newcommand\leftsubsection[1]{\newsubsection{darkhighlight}{##1}}%
+    % Colours based on background, to simplify usage.
+    \colorlet{text}          {black}%
+    \colorlet{dimtext}       {darkgray}%
+    \colorlet{background}    {white}%
+    \colorlet{altbackground} {lightgray}%
+    \colorlet{highlight}     {darkhighlight}%
+    % Commands for section titles coloured according to background.
+    \newcommand\leftsection[1]{\newsection{text}{##1}}%
+    \newcommand\leftsubsection[1]{\newsubsection{highlight}{##1}}%
+    %
+    % Create the left column.
     \begin{textblock*}{62mm}(4mm, 52mm)\begin{flushleft}%
         \makesummary%
         \makeskills%
     \end{flushleft}\end{textblock*}%
 }
 
+% Make the résumé left column's about me section.
+%
 \newcommand{\makesummary}[0]{{%
     \ifdefempty{\@summary}{}{%
-        \leftsection{About me}{\color{darkgray}\vspace{-3mm}\setlength{\parskip}{3mm}\@summary}\par\vspace{4mm}%
+        \leftsection{About me}{\vspace{-3mm}\setlength{\parskip}{3mm}%
+            \formatted{dimtext}{regular}{+0}{\@summary}%
+        }\par\vspace{4mm}%
     }%
 }}
 
+% Make the résumé left column's skills section.
+%
 \newcommand{\makeskills}[0]{{%
     \leftsection{Skills}{%
         \renewcommand{\do}[1]{%
-            \makeskillset{##1}
+            \makeskillset{##1}%
         }\dolistcsloop{skillsetslist}%
     }%
 }}
 
+% Make a single résumé left column's skillset.
+%
 \newcommand{\makeskillset}[1]{{%
     \leftsubsection{#1}{%
         \renewcommand{\do}[1]{%
-            \makeskill{##1}
+            \makeskill{##1}%
         }\dolistcsloop{skillset{#1}}%
     }\vspace{2mm}%
 }}
 
+% Make a single résumé left column's skillset's skill.
+%
 \newcommand{\makeskill}[1]{{%
-    \def\@name{}%
-    \def\@score{}%
-    \renewcommand{\do}[1]{%
-        \ifdefempty{\@name}{\def\@name{##1}}{\def\@score{##1}}%
+    \def\@name{}   % Skill name.
+    \def\@score{}  % Skill score.
+    \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
+        \ifdefempty{\@name}{\def\@name{{##1}}}{\def\@score{##1}}%
     }\docsvlist{#1}%
-    {\color{darkgray}\@name\hfill}%
-    \foreach \x in {1, ..., 5}{%
-        \hspace{1mm}\makecircle{\ifnumgreater{\x}{\@score}{lightgray}{darkhighlight}}%
+    %
+    \coloured{dimtext}{\@name}\hfill  % Set the skill name.
+    \foreach \x in {1, ..., 5}{  % Draw the circles.
+        \hspace{1mm}\makecircle{\ifnumgreater{\x}{\@score}{altbackground}{highlight}}%
     }\par%
 }}
 
 % Right column
 % ---------------------------------------------------------------------------- %
 
-\newcommand{\makeright}[0]{
-    \newcommand{\rightsection}[1]{\newsection{black}{##1}}%
+% Make the résumé right column.
+%
+\newcommand{\makeright}[0]{%
+    % Colours based on background, to simplify usage.
+    \colorlet{text}          {black}%
+    \colorlet{dimtext}       {darkgray}%
+    \definecolor{background} {HTML} {FFFFFF}%
+    \colorlet{altbackground} {lightgray}%
+    \colorlet{highlight}     {darkhighlight}%
+    % Commands for section titles coloured according to background.
+    \newcommand{\rightsection}[1]{\newsection{text}{##1}}%
+    %
+    % Create the right column.
     \begin{textblock*}{132mm}(74mm, 52mm)\begin{flushleft}%
         \makeexperience%
         \makeeducation%
@@ -519,6 +736,8 @@
     \end{flushleft}\end{textblock*}%
 }
 
+% Make the résumé right column's experience.
+%
 \newcommand{\makeexperience}[0]{{%
     \measure{experiencelist}\ifnumgreater{\thelength}{0}{%
         \rightsection{Experience}{%
@@ -529,25 +748,30 @@
     }{}%
 }}
 
+% Make the résumé right column's single experience entry.
+%
 \newcommand{\makejob}[1]{{%
-    \def\@start{}%
-    \def\@end{}%
-    \def\@employer{}%
-    \def\@jobtitle{}%
-    \def\@jobdescription{}%
-    \renewcommand{\do}[1]{%
-        \ifdefempty{\@start}{\def\@start{##1}}%
-        {\ifdefempty{\@end}{\def\@end{##1}}%
-        {\ifdefempty{\@employer}{\def\@employer{##1}}%
-        {\ifdefempty{\@jobtitle}{\def\@jobtitle{##1}}%
-        {\def\@jobdescription{##1}}}}}%
+    \def\@start{}           % Job start.
+    \def\@end{}             % Job end.
+    \def\@employer{}        % Employer.
+    \def\@jobtitle{}        % Job title.
+    \def\@jobdescription{}  % Job description.
+    \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
+        \ifdefempty{\@start}{\def\@start{{##1}}}{%
+        \ifdefempty{\@end}{\def\@end{{##1}}}{%
+        \ifdefempty{\@employer}{\def\@employer{{##1}}}{%
+        \ifdefempty{\@jobtitle}{\def\@jobtitle{{##1}}}{%
+        \def\@jobdescription{##1}}}}}%
     }\docsvlist{#1}%
-    {\color{darkgray}{\bfseries\@employer}}\par\vspace{1mm}%
-    {\color{darkgray}\textsc{\@jobtitle}}\hfill%
-    {\color{darkgray}\@start{ -- }\@end}\ifdefempty{\@jobdescription}{}{\par\vspace{2mm}%
-    {\color{darkgray}\vspace{-3mm}\setlength{\parskip}{3mm}\it\@jobdescription}}\par\vspace{3mm}%
+    %
+    \formatted{dimtext}{bold}{+0}{\@employer}\par\vspace{1mm}%
+    \formatted{dimtext}{smallcase}{+0}{\@jobtitle}\hfill%
+    \formatted{dimtext}{regular}{+0}{\@start{ -- }\@end}\ifdefempty{\@jobdescription}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@jobdescription}}\par\vspace{3mm}%
 }}
 
+% Make the résumé right column's education.
+%
 \newcommand{\makeeducation}[0]{{%
     \measure{educationlist}\ifnumgreater{\thelength}{0}{%
         \rightsection{Education}{%
@@ -558,25 +782,30 @@
     }{}%
 }}
 
+% Make the résumé right column's single education entry.
+%
 \newcommand{\makestudy}[1]{{%
-    \def\@start{}%
-    \def\@end{}%
-    \def\@university{}%
-    \def\@title{}%
-    \def\@description{}%
-    \renewcommand{\do}[1]{%
-        \ifdefempty{\@start}{\def\@start{##1}}%
-        {\ifdefempty{\@end}{\def\@end{##1}}%
-        {\ifdefempty{\@university}{\def\@university{##1}}%
-        {\ifdefempty{\@title}{\def\@title{##1}}%
-        {\def\@description{##1}}}}}%
+    \def\@start{}        % Study start.
+    \def\@end{}          % Study end.
+    \def\@university{}   % University / institution.
+    \def\@title{}        % Title obtained.
+    \def\@description{}  % Description.
+    \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
+        \ifdefempty{\@start}{\def\@start{{##1}}}{%
+        \ifdefempty{\@end}{\def\@end{{##1}}}{%
+        \ifdefempty{\@university}{\def\@university{{##1}}}{%
+        \ifdefempty{\@title}{\def\@title{{##1}}}{%
+        \def\@description{##1}}}}}%
     }\docsvlist{#1}%
-    {\color{darkgray}{\bfseries\@title}}\par\vspace{1mm}%
-    {\color{darkgray}\textsc{\@university}}\hfill%
-    {\color{darkgray}\@start{ -- }\@end}\ifdefempty{\@description}{}{\par\vspace{2mm}%
-    {\color{darkgray}\vspace{-3mm}\setlength{\parskip}{3mm}\it\@description}}\par\vspace{3mm}%
+    %
+    \formatted{dimtext}{bold}{+0}{\@title}\par\vspace{1mm}%
+    \formatted{dimtext}{smallcase}{+0}{\@university}\hfill%
+    \formatted{dimtext}{regular}{+0}{\@start{ -- }\@end}\ifdefempty{\@description}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@description}}\par\vspace{3mm}%
 }}
 
+% Make the résumé right column's publications.
+%
 \newcommand{\makepublications}[0]{{%
     \measure{publicationslist}\ifnumgreater{\thelength}{0}{%
         \rightsection{Publications}{%
@@ -587,38 +816,45 @@
     }{}%
 }}
 
+% Make the résumé right column's single publication entry.
+%
 \newcommand{\makepublication}[1]{{%
-    \def\@date{}%
-    \def\@title{}%
-    \def\@link{}%
-    \def\@description{}%
-    \renewcommand{\do}[1]{%
-        \ifdefempty{\@date}{\def\@date{##1}}%
-        {\ifdefempty{\@title}{\def\@title{##1}}%
-        {\ifdefempty{\@link}{\def\@link{##1}}%
-        {\def\@description{##1}}}}%
+    \def\@date{}         % Publication date.
+    \def\@title{}        % Publication title.
+    \def\@link{}         % Link to publication.
+    \def\@description{}  % Description.
+    \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
+        \ifdefempty{\@date}{\def\@date{{##1}}}{%
+        \ifdefempty{\@title}{\def\@title{{##1}}}{%
+        \ifdefempty{\@link}{\def\@link{##1}}{%
+        \def\@description{##1}}}}%
     }\docsvlist{#1}%
-    {\color{darkgray}{\bfseries\@title}}\par\vspace{1mm}%
-    {\color{darkhighlight}\url{\@link}}\hfill%
-    {\color{darkgray}\@date}\ifdefempty{\@description}{}{\par\vspace{2mm}%
-    {\color{darkgray}\vspace{-3mm}\setlength{\parskip}{3mm}\it\@description}}\par\vspace{3mm}%
+    %
+    \formatted{dimtext}{bold}{+0}{\@title}\par\vspace{1mm}%
+    \formattedlink{dimtext}{smallcase}{+0}{\@link}{}\hfill%
+    \formatted{dimtext}{regular}{+0}{\@date}\ifdefempty{\@description}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@description}}\par\vspace{3mm}%
 }}
 
 % Utility methods
 % ---------------------------------------------------------------------------- %
 
+% A command used internally to create sections.
 \newcommand{\newsection}[2]{%
-    \raisebox{0mm}{\makebox[\linewidth]{\raisebox{-1mm}{\color{#1}\LARGE{#2}}\hspace{2mm}\hlinefill{1pt}}}\par\vspace{2mm}%
+    \raisebox{0mm}{\makebox[\linewidth]{\raisebox{-1mm}{\formatted{#1}{regular}{+3}{#2}}\hspace{2mm}\hlinefill{1pt}}}\par\vspace{2mm}%
 }
 
+% A command used internally to create subsections.
 \newcommand{\newsubsection}[2]{%
-    {\color{#1}\large{#2}}\par\vspace{0.5mm}%
+    \formatted{#1}{regular}{+1}{#2}\par\vspace{0.5mm}%
 }
 
+% A command used internally to make a resizable hrulefill.
 \newcommand{\hlinefill}[1]{%
     \def\hrulefill{\leavevmode\leaders\hrule height #1\hfill\kern\z@}\hrulefill%
 }
 
+% A command used internally to create circles inline.
 \newcommand{\makecircle}[1]{%
     \begin{tikzpicture}[scale=0.15]%
         \node[
@@ -628,7 +864,53 @@
     \end{tikzpicture}%
 }
 
+% A command used internally to create rectangles as an overlay.
+\newcommand{\makerectangleoverlay}[5]{%
+    \begin{tikzpicture}[overlay]
+        \node[
+            rectangle,
+            fill=#1,
+            anchor=#2,
+            minimum width=#3,
+            minimum height=#4,
+        ] (box) at (#5){};
+    \end{tikzpicture}%
+}
+
+% Commands used internally for switch cases.
+\newcommand{\case}[0]{}
+\newcommand{\default}[0]{}
+
+% A command used internally as a switch case for strings.
+\newenvironment{stringswitch}[1]{%
+    \def\@switched{}%
+    \renewcommand{\case}[2]{\ifdefempty{\@switched}{\ifstrequal{#1}{##1}{##2\def\@switched{true}}{}}{}}%
+    \renewcommand{\default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
+}{%
+}
+
+% A command used internally as a switch case for decimal numbers.
+\newenvironment{numswitch}[1]{%
+    \IfDecimal{#1}{}{%
+        \ClassError{Résumé}{Num switch with non number '#1'}%
+        {Num switch can only handle numbers.\MessageBreak}%
+    }%
+    \def\@switched{}%
+    \renewcommand{\case}[3]{%
+        \IfDecimal{##2}{}{%
+            \ClassError{Résumé}{Num switch case with non number '##2'}%
+            {Num switch can only handle numbers.\MessageBreak}%
+        }%
+        \ifdefempty{\@switched}{\ifdimcomp{#1 pt}{##1}{##2 pt}{##3\def\@switched{true}}{}}{}%
+    }%
+    \renewcommand{\default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
+}{%
+}
+
+% A value used to contain the result of the following command.
 \newcounter{length}%
+
+% A command used internally to measure an etoolbox list.
 \newcommand{\measure}[1]{{%
     \setcounter{length}{0}%
     \renewcommand{\do}[1]{\stepcounter{length}}%

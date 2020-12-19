@@ -63,6 +63,7 @@ used. Older versions might still work, but are untested.
    * [textpos](https://ctan.org/pkg/textpos) >= `1.10`
    * [TikZ](https://www.ctan.org/pkg/tikz) >= `3.1.7a`
    * [xcolor](https://ctan.org/pkg/xcolor) >= `2.12`
+   * [xstring](https://ctan.org/pkg/xstring) >= `1.83`
  * [Poppler utils](https://poppler.freedesktop.org/) >= `20.09` (only needed to
    create the example screenshot)
  * [GNU Make](https://www.gnu.org/software/make/) >= `4.3` (only to be able to
