@@ -830,7 +830,7 @@
     }\docsvlist{#1}%
     %
     \formatted{dimtext}{bold}{+0}{\@title}\par\vspace{1mm}%
-    \formattedlink{dimtext}{smallcase}{+0}{\@link}{}\hfill%
+    \formattedlink{highlight}{regular}{+0}{\@link}{}\hfill%
     \formatted{dimtext}{regular}{+0}{\@date}\ifdefempty{\@description}{}{\par\vspace{2mm}%
     \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@description}}\par\vspace{3mm}%
 }}
