@@ -51,10 +51,11 @@
     \begin{skillset}{Markup}
         % A single skill that corresponds to the encompasing skill set.
         % The format is {Skill name}{Skill score in a 1-5 range).
-        \skill{\LaTeX}{5}
-        % You can declare as many skills as you want inside a skill set.
         \skill{Markdown}{5}
+        % You can declare as many skills as you want inside a skill set.
         \skill{HTML}{4}
+        % Skills names support expressions.
+        \skill{\LaTeX}{5}
     \end{skillset}
 
     % You can also declare as many skill sets as you need, but there must be at least one.
@@ -66,27 +67,38 @@
         \skill{C/C++}{3}
     \end{skillset}
 
-    \begin{skillset}{Tools}
-        \skill{Docker}{4}
-        \skill{Kubernetes}{5}
-    \end{skillset}
-
     \begin{skillset}{Operating Systems}
         % If you want to assert dominance with your skills, you can set them to
         % be over 9000, the resume will handle them (and just cast them to range).
         \skill{Linux}{9001}
-        \skill{BSD}{4}
         % You can even use negatives.
         \skill{Windows}{-1}
         % But not decimal numbers.
         % \skill{MacOS}{4.2}
-        \skill{MacOS}{4}
     \end{skillset}
 
     \begin{skillset}{Languages}
         \skill{English}{5}
         \skill{Spanish}{4}
-        \skill{Quenya}{2}
+        % You can create links wherever you want.
+        \skill{\link{https://lotr.fandom.com/wiki/Quenya}{Quenya}}{2}
+    \end{skillset}
+
+    % And the different skill levels have tooltips to better describe the
+    % mastery (or lack thereof) of each one.
+    \begin{skillset}{All levels}
+        % 5: I only use Google because it is easier.
+        \skill{Level 5}{5}
+        % 4: I can do some stuff without Google.
+        \skill{Level 4}{4}
+        % 3: I know exactly what to Google.
+        \skill{Level 3}{3}
+        % 2: I understand what I am copying from Google.
+        \skill{Level 2}{2}
+        % 1: I know some keywords that help me Google.
+        \skill{Level 1}{1}
+        % 0: I utterly stumble my way copying from Google.
+        \skill{Level 0}{0}
     \end{skillset}
 
     % Right column
