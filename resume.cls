@@ -359,8 +359,8 @@
         {
             Valid styles are {
                     'bold', 'emphasised', 'italic', 'lowercase', 'medium',
-                    'mono', 'normal', 'regular', 'slanted', 'smallcase',
-                    'underlined', 'uppercase'.
+                    'mono', 'normal', 'regular' (alias for normal), 'slanted',
+                    'smallcase', 'underlined', 'uppercase'.
                 }.\MessageBreak
             }%
         }%
