@@ -142,7 +142,6 @@
 % This is a false positive, already validated that alignment is correct.
 \WarningFilter{textpos}{environment textblock* not in vertical mode.}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % User facing commands                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -708,7 +707,7 @@
     }\docsvlist{#1}%
     %
     \coloured{dimtext}{\@name}\hfill  % Set the skill name.
-    \foreach \x in {1, ..., 5}{  % Draw the circles.
+    \foreach \x in {1, ..., 5}{% Draw the circles.
         \hspace{1mm}\makecircle{\ifnumgreater{\x}{\@score}{altbackground}{highlight}}%
     }\par%
 }}
