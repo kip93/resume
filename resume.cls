@@ -599,7 +599,7 @@
 \newcommand{\makepersonalinfo}[0]{%
     \begin{textblock*}{0.69\paperwidth}(10mm, 4mm)\begin{flushright}{%
             % Name.
-            \formatted{text}{bold}{+3}{\stylised{uppercase}{\@lastname}, {\@firstname}}%
+            \formatted{text}{bold}{+3}{\stylised{smallcase}{\@lastname}, \@firstname}%
         }\par\vspace{2mm}{%
             % Job title.
             \formatted{text}{italic}{+2}{\@jobtitle}%
