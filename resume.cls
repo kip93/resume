@@ -65,14 +65,14 @@
 \RequirePackage{xcolor}[]
 
 % Gray-scale shades
-\definecolor{black}{HTML}{1A1A1A}
-\definecolor{darkgray}{HTML}{4D4D4D}
-\definecolor{lightgray}{HTML}{BFBFBF}
-\definecolor{white}{HTML}{E6E6E6}
+\definecolor{@black}          {HTML} {1A1A1A}
+\definecolor{@darkgray}       {HTML} {4D4D4D}
+\definecolor{@lightgray}      {HTML} {BFBFBF}
+\definecolor{@white}          {HTML} {E6E6E6}
 
 % Accent colours
-\definecolor{darkhighlight}{HTML}{4D6699}
-\definecolor{lighthighlight}{HTML}{AAC2F2}
+\definecolor{@darkhighlight}  {HTML} {4D6699}
+\definecolor{@lighthighlight} {HTML} {AAC2F2}
 
 % NOTE: This pallete was created taking accesibility into consideration.
 % The tool used to check the readability of the text was the website
@@ -93,8 +93,8 @@
 % The crosses represent bad colour combinations, while the Os are for accesible
 % ones.
 
-% These are redefined per section to have the correct colours available for use
-% from the .tex file.
+% These are redefined per section to have the correct accessible colours
+% available for use from the `.tex` file.
 \definecolor{text}          {HTML} {000000}  % More contrasting text colour.
 \definecolor{dimtext}       {HTML} {000000}  % Less contrasting text colour.
 \definecolor{background}    {HTML} {000000}  % Main background colour.
@@ -126,6 +126,13 @@
 % Add tools for string manipulation.
 % https://ctan.org/pkg/xstring
 \usepackage{xstring}
+
+% PDF annotation
+% ---------------------------------------------------------------------------- %
+
+% Adds support for tooltips and comments.
+% https://ctan.org/pkg/pdfcomment
+\RequirePackage{pdfcomment}
 
 % Extra tools
 % ---------------------------------------------------------------------------- %
@@ -243,20 +250,20 @@
 %
 \newenvironment{skillset}[1]{%
     % Add the skill set name to a list of all skill sets.
-    \listcsgadd{skillsetslist}{#1}%
+    \listcsgadd{@skillsetslist}{#1}%
     % Add a skill to the current skillset.
     %
     % Arguments:
     %     * The name of the skill
     %     * The ability score for the skill
     %
-    \newcommand{\skill}[2]{\listcsgadd{skillset{#1}}{{{##1}, {##2}}}}%
+    \newcommand{\skill}[2]{\listcsgadd{@skillset{#1}}{{{##1}, {##2}}}}%
     % Makes sure that the list is created (the "nicer"
-    % `\expandafter\newcommand\csname{skillset{#1}}\endcsname{}` was not working
-    % for some reason).
-    \listcsgadd{skillset{#1}}{foo}\listcsgremove{skillset{#1}}{foo}%
+    % `\expandafter\newcommand\csname{@skillset{#1}}\endcsname{}` was not
+    % working for some reason).
+    \listcsgadd{@skillset{#1}}{foo}\listcsgremove{@skillset{#1}}{foo}%
 }{}
-\newcommand{\skillsetslist}{}
+\newcommand{\@skillsetslist}{}
 
 % Set a summary text (optional).
 %
@@ -278,8 +285,8 @@
 %     * Job title
 %     * Job description (optional)
 %
-\newcommand{\experience}[5]{\listcsgadd{experiencelist}{{{#1}, {#2}, {#3}, {#4}, {#5}}}}
-\newcommand{\experiencelist}{}
+\newcommand{\experience}[5]{\listcsgadd{@experiencelist}{{{#1}, {#2}, {#3}, {#4}, {#5}}}}
+\newcommand{\@experiencelist}{}
 
 % Add an education entry (optional).
 %
@@ -290,8 +297,8 @@
 %     * Title
 %     * Notes (optional)
 %
-\newcommand{\education}[5]{\listcsgadd{educationlist}{{{#1}, {#2}, {#3}, {#4}, {#5}}}}
-\newcommand{\educationlist}{}
+\newcommand{\education}[5]{\listcsgadd{@educationlist}{{{#1}, {#2}, {#3}, {#4}, {#5}}}}
+\newcommand{\@educationlist}{}
 
 % Add a publication entry (optional).
 %
@@ -301,8 +308,8 @@
 %     * URL
 %     * Description (optional)
 %
-\newcommand{\publication}[4]{\listcsgadd{publicationslist}{{{#1}, {#2}, {#3}, {#4}}}}
-\newcommand{\publicationslist}{}
+\newcommand{\publication}[4]{\listcsgadd{@publicationslist}{{{#1}, {#2}, {#3}, {#4}}}}
+\newcommand{\@publicationslist}{}
 
 % Wrapper
 % ---------------------------------------------------------------------------- %
@@ -310,15 +317,15 @@
 % Create the Résumé.
 %
 \newenvironment{resume}{%
-    \document        % Equivalent to `\begin{document}`.
+    \document         % Equivalent to `\begin{document}`.
 }{%
-    \validate        % Run some checks to show nicer error messages.
-    \setmetadata     % Sets the PDF metadata.
-    \makebackground  % Sets the coloured background for the document.
-    \makeheader      % Create the top header part of the document.
-    \makeleft        % Create the left column of the document.
-    \makeright       % Create the right main column of the document.
-    \enddocument     % Equivalent to `\end{document}`.
+    \@validate        % Run some checks to show nicer error messages.
+    \@setmetadata     % Sets the PDF metadata.
+    \@makebackground  % Sets the coloured background for the document.
+    \@makeheader      % Create the top header part of the document.
+    \@makeleft        % Create the left column of the document.
+    \@makeright       % Create the right main column of the document.
+    \enddocument      % Equivalent to `\end{document}`.
 }
 
 % Utility methods
@@ -341,20 +348,20 @@
 %     * Text
 %
 \newcommand{\stylised}[2]{%
-    \begin{stringswitch}{#1}%
-        \case{bold}{\textbf{#2}}%
-        \case{emphasised}{\emph{#2}}%
-        \case{italic}{\textit{#2}}%
-        \case{lowercase}{\lowercase{#2}}%
-        \case{medium}{\textmd{#2}}%
-        \case{mono}{\texttt{#2}}%
-        \case{normal}{\textnormal{#2}}%
-        \case{regular}{\textnormal{#2}}%
-        \case{slanted}{\textsl{#2}}%
-        \case{smallcase}{\textsc{#2}}%
-        \case{underlined}{\underline{#2}}%
-        \case{uppercase}{\uppercase{#2}}%
-        \default{%
+    \begin{@stringswitch}{#1}%
+        \@case{bold}{\textbf{#2}}%
+        \@case{emphasised}{\emph{#2}}%
+        \@case{italic}{\textit{#2}}%
+        \@case{lowercase}{\lowercase{#2}}%
+        \@case{medium}{\textmd{#2}}%
+        \@case{mono}{\texttt{#2}}%
+        \@case{normal}{\textnormal{#2}}%
+        \@case{regular}{\textnormal{#2}}%
+        \@case{slanted}{\textsl{#2}}%
+        \@case{smallcase}{\textsc{#2}}%
+        \@case{underlined}{\underline{#2}}%
+        \@case{uppercase}{\uppercase{#2}}%
+        \@default{%
             \ClassError{Résumé}{Unknown style '#1'}%
             {
                 Valid styles are {
@@ -364,7 +371,7 @@
                 }.\MessageBreak
             }%
         }%
-    \end{stringswitch}%
+    \end{@stringswitch}%
 }
 
 % Output text with specific size.
@@ -378,20 +385,20 @@
         \ClassError{Résumé}{Sized with non integer '#1'}%
         {Sized can only handle integers.\MessageBreak}%
     }%
-    \begin{numswitch}{#1}%
-        \case{<}{-4}{\tiny#2\ClassWarning{Résumé}{Size #1 is too small, casting to -4}}%
-        \case{=}{-4}{\tiny#2}%
-        \case{=}{-3}{\scriptsize#2}%
-        \case{=}{-2}{\footnotesize#2}%
-        \case{=}{-1}{\small#2}%
-        \case{=}{+0}{\normalsize#2}%
-        \case{=}{+1}{\large#2}%
-        \case{=}{+2}{\Large#2}%
-        \case{=}{+3}{\LARGE#2}%
-        \case{=}{+4}{\huge#2}%
-        \case{=}{+5}{\Huge#2}%
-        \case{>}{+5}{\Huge#2\ClassWarning{Résumé}{Size #1 is too big, casting to +5}}%
-    \end{numswitch}%
+    \begin{@numswitch}{#1}%
+        \@case{<}{-4}{\tiny#2\ClassWarning{Résumé}{Size #1 is too small, casting to -4}}%
+        \@case{=}{-4}{\tiny#2}%
+        \@case{=}{-3}{\scriptsize#2}%
+        \@case{=}{-2}{\footnotesize#2}%
+        \@case{=}{-1}{\small#2}%
+        \@case{=}{+0}{\normalsize#2}%
+        \@case{=}{+1}{\large#2}%
+        \@case{=}{+2}{\Large#2}%
+        \@case{=}{+3}{\LARGE#2}%
+        \@case{=}{+4}{\huge#2}%
+        \@case{=}{+5}{\Huge#2}%
+        \@case{>}{+5}{\Huge#2\ClassWarning{Résumé}{Size #1 is too big, casting to +5}}%
+    \end{@numswitch}%
 }
 
 % Output text with specific colour, style, and size.
@@ -451,6 +458,16 @@
     \formatted{#1}{#2}{#3}{\link{#4}{#5}}%
 }
 
+% Add a tooltip to an object.
+%
+% Arguments:
+%     * Object
+%     * Tooltip
+%
+\newcommand{\tooltip}[2]{%
+    \pdftooltip{#1}{#2}%
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Internal commands                                                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -461,15 +478,15 @@
 % Validate the user configuration. Throws warnings and errors depending on
 % input.
 %
-\newcommand{\validate}[0]{%
-    \validateheader%
-    \validateleft%
-    \validateright%
+\newcommand{\@validate}[0]{%
+    \@validateheader%
+    \@validateleft%
+    \@validateright%
 }
 
 % Validate the user configuration correspondong to the header.
 %
-\newcommand{\validateheader}[0]{%
+\newcommand{\@validateheader}[0]{%
     \ifdefempty{\@birthday}{  % Birthday is mandatory.
         \ClassError{Résumé}{Birthday is missing}%
         {Check the "birthday" command.\MessageBreak}%
@@ -518,32 +535,32 @@
 
 % Validate the user configuration correspondong to left column.
 %
-\newcommand{\validateleft}[0]{{%
+\newcommand{\@validateleft}[0]{{%
     \ifdefempty{\@summary}{  % Summary is optional.
         \ClassWarning{Résumé}{Summary text is not present (section will be skipped)}%
     }{}%
-    \measure{skillsetslist}\ifnumequal{\thelength}{0}{  % Skillsets are mandatory.
+    \@measure{@skillsetslist}\ifnumequal{\the@length}{0}{  % Skillsets are mandatory.
         \ClassError{Résumé}{No skillset present}%
         {Check the "skillset" environment.\MessageBreak}%
     }{}%
     \renewcommand{\do}[1]{  % Skillsets cannot be empty.
-        \measure{skillset{##1}}\ifnumequal{\thelength}{0}{%
+        \@measure{@skillset{##1}}\ifnumequal{\the@length}{0}{%
             \ClassError{Résumé}{Skillset "##1" is empty}%
             {Check the "skill" command.\MessageBreak}%
         }{}%
-    }\dolistcsloop{skillsetslist}%
+    }\dolistcsloop{@skillsetslist}%
 }}
 
 % Validate the user configuration correspondong to the right column.
 %
-\newcommand{\validateright}[0]{%
-    \measure{experiencelist}\ifnumequal{\thelength}{0}{  % Experience is optional.
+\newcommand{\@validateright}[0]{%
+    \@measure{@experiencelist}\ifnumequal{\the@length}{0}{  % Experience is optional.
         \ClassWarning{Résumé}{No experience given (section will be skipped)}%
     }{}%
-    \measure{educationlist}\ifnumequal{\thelength}{0}{  % Education is optional.
+    \@measure{@educationlist}\ifnumequal{\the@length}{0}{  % Education is optional.
         \ClassWarning{Résumé}{No education given (section will be skipped)}%
     }{}%
-    \measure{publicationslist}\ifnumequal{\thelength}{0}{  % Publications are optional.
+    \@measure{@publicationslist}\ifnumequal{\the@length}{0}{  % Publications are optional.
         \ClassWarning{Résumé}{No publications given (section will be skipped)}%
     }{}%
 }
@@ -553,7 +570,7 @@
 
 % Set the PDF metadata.
 %
-\newcommand{\setmetadata}[0]{%
+\newcommand{\@setmetadata}[0]{%
     \hypersetup{
         pdfauthor={\@lastname, \@firstname},
         pdftitle={\@lastname, \@firstname: Résumé},
@@ -569,11 +586,11 @@
 
 % Draw the coloured background.
 %
-\newcommand{\makebackground}[0]{%
+\newcommand{\@makebackground}[0]{%
     % Left column.
-    \makerectangleoverlay{white}{north west}{70mm}{\paperheight + 10mm}{0mm, 5mm}%
+    \@makerectangleoverlay{@white}{north west}{70mm}{\paperheight + 10mm}{0mm, 5mm}%
     % Header.
-    \makerectangleoverlay{darkgray}{north}{\paperwidth + 10mm}{60mm}{\paperwidth / 2, 5mm}%
+    \@makerectangleoverlay{@darkgray}{north}{\paperwidth + 10mm}{60mm}{\paperwidth / 2, 5mm}%
 }
 
 % Header
@@ -581,22 +598,22 @@
 
 % Make the résumé header.
 %
-\newcommand{\makeheader}[0]{%
+\newcommand{\@makeheader}[0]{%
     % Colours based on background, to simplify usage.
-    \colorlet{text}          {white}%
-    \colorlet{dimtext}       {lightgray}%
-    \colorlet{background}    {darkgray}%
-    \colorlet{altbackground} {black}%
-    \colorlet{highlight}     {lighthighlight}%
+    \colorlet{text}          {@white}%
+    \colorlet{dimtext}       {@lightgray}%
+    \colorlet{background}    {@darkgray}%
+    \colorlet{altbackground} {@black}%
+    \colorlet{highlight}     {@lighthighlight}%
     %
     % Populate the header.
-    \makepersonalinfo%
-    \makeprofilepicture%
+    \@makepersonalinfo%
+    \@makeprofilepicture%
 }
 
 % Make the résumé header's text.
 %
-\newcommand{\makepersonalinfo}[0]{%
+\newcommand{\@makepersonalinfo}[0]{%
     \begin{textblock*}{0.69\paperwidth}(10mm, 4mm)\begin{flushright}{%
             % Name.
             \formatted{text}{bold}{+3}{\stylised{smallcase}{\@lastname}, \@firstname}%
@@ -628,7 +645,7 @@
 
 % Make the résumé header's profile picture.
 %
-\newcommand{\makeprofilepicture}[0]{%
+\newcommand{\@makeprofilepicture}[0]{%
     \begin{tikzpicture}[overlay]
         \node[
             rectangle,
@@ -649,29 +666,29 @@
 
 % Make the résumé left column.
 %
-\newcommand{\makeleft}[0]{%
+\newcommand{\@makeleft}[0]{%
     % Colours based on background, to simplify usage.
-    \colorlet{text}          {black}%
-    \colorlet{dimtext}       {darkgray}%
-    \colorlet{background}    {white}%
-    \colorlet{altbackground} {lightgray}%
-    \colorlet{highlight}     {darkhighlight}%
+    \colorlet{text}          {@black}%
+    \colorlet{dimtext}       {@darkgray}%
+    \colorlet{background}    {@white}%
+    \colorlet{altbackground} {@lightgray}%
+    \colorlet{highlight}     {@darkhighlight}%
     % Commands for section titles coloured according to background.
-    \newcommand\leftsection[1]{\newsection{text}{##1}}%
-    \newcommand\leftsubsection[1]{\newsubsection{highlight}{##1}}%
+    \newcommand\@leftsection[1]{\@newsection{text}{##1}}%
+    \newcommand\@leftsubsection[1]{\@newsubsection{highlight}{##1}}%
     %
     % Create the left column.
     \begin{textblock*}{62mm}(4mm, 52mm)\begin{flushleft}%
-        \makesummary%
-        \makeskills%
+        \@makesummary%
+        \@makeskills%
     \end{flushleft}\end{textblock*}%
 }
 
 % Make the résumé left column's about me section.
 %
-\newcommand{\makesummary}[0]{%
+\newcommand{\@makesummary}[0]{%
     \ifdefempty{\@summary}{}{%
-        \leftsection{About me}{\vspace{-3mm}\setlength{\parskip}{3mm}%
+        \@leftsection{About me}{\vspace{-3mm}\setlength{\parskip}{3mm}%
             \formatted{dimtext}{regular}{+0}{\@summary}%
         }\par\vspace{4mm}%
     }%
@@ -679,27 +696,27 @@
 
 % Make the résumé left column's skills section.
 %
-\newcommand{\makeskills}[0]{{%
-    \leftsection{Skills}{%
+\newcommand{\@makeskills}[0]{{%
+    \@leftsection{Skills}{%
         \renewcommand{\do}[1]{%
-            \makeskillset{##1}%
-        }\dolistcsloop{skillsetslist}%
+            \@makeskillset{##1}%
+        }\dolistcsloop{@skillsetslist}%
     }%
 }}
 
 % Make a single résumé left column's skillset.
 %
-\newcommand{\makeskillset}[1]{{%
-    \leftsubsection{#1}{%
+\newcommand{\@makeskillset}[1]{{%
+    \@leftsubsection{#1}{%
         \renewcommand{\do}[1]{%
-            \makeskill{##1}%
-        }\dolistcsloop{skillset{#1}}%
+            \@makeskill{##1}%
+        }\dolistcsloop{@skillset{#1}}%
     }\vspace{2mm}%
 }}
 
 % Make a single résumé left column's skillset's skill.
 %
-\newcommand{\makeskill}[1]{{%
+\newcommand{\@makeskill}[1]{{%
     \def\@name{}   % Skill name.
     \def\@score{}  % Skill score.
     \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
@@ -707,8 +724,15 @@
     }\docsvlist{#1}%
     %
     \coloured{dimtext}{\@name}\hfill  % Set the skill name.
-    \foreach \x in {1, ..., 5}{% Draw the circles.
-        \hspace{1mm}\makecircle{\ifnumgreater{\x}{\@score}{altbackground}{highlight}}%
+    \tooltip{\foreach \@x in {1, ..., 5}{% Draw the circles.
+        \hspace{1mm}\@makecircle{\ifnumgreater{\@x}{\@score}{altbackground}{highlight}}%
+    }}{%
+        \ifnumless{\@score}{1} {0: I utterly stumble my way copying from Google.}{%
+        \ifnumequal{\@score}{1}{1: I know some keywords that help me Google.}{%
+        \ifnumequal{\@score}{2}{2: I understand what I am copying from Google.}{%
+        \ifnumequal{\@score}{3}{3: I know exactly what to Google.}{%
+        \ifnumequal{\@score}{4}{4: I can do some stuff without Google.}{%
+                                5: I only use Google because it is easier.}}}}}%
     }\par%
 }}
 
@@ -717,39 +741,39 @@
 
 % Make the résumé right column.
 %
-\newcommand{\makeright}[0]{%
+\newcommand{\@makeright}[0]{%
     % Colours based on background, to simplify usage.
-    \colorlet{text}          {black}%
-    \colorlet{dimtext}       {darkgray}%
+    \colorlet{text}          {@black}%
+    \colorlet{dimtext}       {@darkgray}%
     \definecolor{background} {HTML} {FFFFFF}%
-    \colorlet{altbackground} {lightgray}%
-    \colorlet{highlight}     {darkhighlight}%
+    \colorlet{altbackground} {@lightgray}%
+    \colorlet{highlight}     {@darkhighlight}%
     % Commands for section titles coloured according to background.
-    \newcommand{\rightsection}[1]{\newsection{text}{##1}}%
+    \newcommand{\@rightsection}[1]{\@newsection{text}{##1}}%
     %
     % Create the right column.
     \begin{textblock*}{132mm}(74mm, 52mm)\begin{flushleft}%
-        \makeexperience%
-        \makeeducation%
-        \makepublications%
+        \@makeexperience%
+        \@makeeducation%
+        \@makepublications%
     \end{flushleft}\end{textblock*}%
 }
 
 % Make the résumé right column's experience.
 %
-\newcommand{\makeexperience}[0]{{%
-    \measure{experiencelist}\ifnumgreater{\thelength}{0}{%
-        \rightsection{Experience}{%
+\newcommand{\@makeexperience}[0]{{%
+    \@measure{@experiencelist}\ifnumgreater{\the@length}{0}{%
+        \@rightsection{Experience}{%
             \renewcommand{\do}[1]{%
-                \makejob{##1}%
-            }\dolistcsloop{experiencelist}%
+                \@makeexperienceentry{##1}%
+            }\dolistcsloop{@experiencelist}%
         }\vspace{1mm}%
     }{}%
 }}
 
 % Make the résumé right column's single experience entry.
 %
-\newcommand{\makejob}[1]{{%
+\newcommand{\@makeexperienceentry}[1]{{%
     \def\@start{}           % Job start.
     \def\@end{}             % Job end.
     \def\@employer{}        % Employer.
@@ -771,25 +795,25 @@
 
 % Make the résumé right column's education.
 %
-\newcommand{\makeeducation}[0]{{%
-    \measure{educationlist}\ifnumgreater{\thelength}{0}{%
-        \rightsection{Education}{%
+\newcommand{\@makeeducation}[0]{{%
+    \@measure{@educationlist}\ifnumgreater{\the@length}{0}{%
+        \@rightsection{Education}{%
             \renewcommand{\do}[1]{%
-                \makestudy{##1}%
-            }\dolistcsloop{educationlist}%
+                \@makeeducationentry{##1}%
+            }\dolistcsloop{@educationlist}%
         }\vspace{1mm}%
     }{}%
 }}
 
 % Make the résumé right column's single education entry.
 %
-\newcommand{\makestudy}[1]{{%
-    \def\@start{}        % Study start.
-    \def\@end{}          % Study end.
-    \def\@university{}   % University / institution.
+\newcommand{\@makeeducationentry}[1]{{%
+    \def\@start{}        % Education start.
+    \def\@end{}          % Education end.
+    \def\@university{}   % University / Institution.
     \def\@title{}        % Title obtained.
     \def\@description{}  % Description.
-    \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
+    \renewcommand{\do}[1]{% Iterate over the entry to recover values.
         \ifdefempty{\@start}{\def\@start{{##1}}}{%
         \ifdefempty{\@end}{\def\@end{{##1}}}{%
         \ifdefempty{\@university}{\def\@university{{##1}}}{%
@@ -805,24 +829,24 @@
 
 % Make the résumé right column's publications.
 %
-\newcommand{\makepublications}[0]{{%
-    \measure{publicationslist}\ifnumgreater{\thelength}{0}{%
-        \rightsection{Publications}{%
+\newcommand{\@makepublications}[0]{{%
+    \@measure{@publicationslist}\ifnumgreater{\the@length}{0}{%
+        \@rightsection{Publications}{%
             \renewcommand{\do}[1]{%
-                \makepublication{##1}%
-            }\dolistcsloop{publicationslist}%
+                \@makepublicationentry{##1}%
+            }\dolistcsloop{@publicationslist}%
         }\vspace{1mm}%
     }{}%
 }}
 
 % Make the résumé right column's single publication entry.
 %
-\newcommand{\makepublication}[1]{{%
+\newcommand{\@makepublicationentry}[1]{{%
     \def\@date{}         % Publication date.
     \def\@title{}        % Publication title.
     \def\@link{}         % Link to publication.
     \def\@description{}  % Description.
-    \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
+    \renewcommand{\do}[1]{% Iterate over the entry to recover values.
         \ifdefempty{\@date}{\def\@date{{##1}}}{%
         \ifdefempty{\@title}{\def\@title{{##1}}}{%
         \ifdefempty{\@link}{\def\@link{##1}}{%
@@ -839,22 +863,22 @@
 % ---------------------------------------------------------------------------- %
 
 % A command used internally to create sections.
-\newcommand{\newsection}[2]{%
-    \raisebox{0mm}{\makebox[\linewidth]{\raisebox{-1mm}{\formatted{#1}{regular}{+3}{#2}}\hspace{2mm}\hlinefill{1pt}}}\par\vspace{2mm}%
+\newcommand{\@newsection}[2]{%
+    \raisebox{0mm}{\makebox[\linewidth]{\raisebox{-1mm}{\formatted{#1}{regular}{+3}{#2}}\hspace{2mm}\@hlinefill{1pt}}}\par\vspace{2mm}%
 }
 
 % A command used internally to create subsections.
-\newcommand{\newsubsection}[2]{%
+\newcommand{\@newsubsection}[2]{%
     \formatted{#1}{regular}{+1}{#2}\par\vspace{0.5mm}%
 }
 
 % A command used internally to make a resizable hrulefill.
-\newcommand{\hlinefill}[1]{%
-    \def\hrulefill{\leavevmode\leaders\hrule height #1\hfill\kern\z@}\hrulefill%
+\newcommand{\@hlinefill}[1]{%
+    \def\@foo{\leavevmode\leaders\hrule height #1\hfill\kern\z@}\@foo%
 }
 
 % A command used internally to create circles inline.
-\newcommand{\makecircle}[1]{%
+\newcommand{\@makecircle}[1]{%
     \begin{tikzpicture}[scale=0.15]%
         \node[
             circle,
@@ -864,7 +888,7 @@
 }
 
 % A command used internally to create rectangles as an overlay.
-\newcommand{\makerectangleoverlay}[5]{%
+\newcommand{\@makerectangleoverlay}[5]{%
     \begin{tikzpicture}[overlay]
         \node[
             rectangle,
@@ -877,41 +901,41 @@
 }
 
 % Commands used internally for switch cases.
-\newcommand{\case}[0]{}
-\newcommand{\default}[0]{}
+\newcommand{\@case}[0]{}
+\newcommand{\@default}[0]{}
 
 % A command used internally as a switch case for strings.
-\newenvironment{stringswitch}[1]{%
+\newenvironment{@stringswitch}[1]{%
     \def\@switched{}%
-    \renewcommand{\case}[2]{\ifdefempty{\@switched}{\ifstrequal{#1}{##1}{##2\def\@switched{true}}{}}{}}%
-    \renewcommand{\default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
+    \renewcommand{\@case}[2]{\ifdefempty{\@switched}{\ifstrequal{#1}{##1}{##2\def\@switched{true}}{}}{}}%
+    \renewcommand{\@default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
 }{%
 }
 
 % A command used internally as a switch case for decimal numbers.
-\newenvironment{numswitch}[1]{%
+\newenvironment{@numswitch}[1]{%
     \IfDecimal{#1}{}{%
         \ClassError{Résumé}{Num switch with non number '#1'}%
         {Num switch can only handle numbers.\MessageBreak}%
     }%
     \def\@switched{}%
-    \renewcommand{\case}[3]{%
+    \renewcommand{\@case}[3]{%
         \IfDecimal{##2}{}{%
             \ClassError{Résumé}{Num switch case with non number '##2'}%
             {Num switch can only handle numbers.\MessageBreak}%
         }%
         \ifdefempty{\@switched}{\ifdimcomp{#1 pt}{##1}{##2 pt}{##3\def\@switched{true}}{}}{}%
     }%
-    \renewcommand{\default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
+    \renewcommand{\@default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
 }{%
 }
 
 % A value used to contain the result of the following command.
-\newcounter{length}%
+\newcounter{@length}%
 
 % A command used internally to measure an etoolbox list.
-\newcommand{\measure}[1]{{%
-    \setcounter{length}{0}%
-    \renewcommand{\do}[1]{\stepcounter{length}}%
+\newcommand{\@measure}[1]{{%
+    \setcounter{@length}{0}%
+    \renewcommand{\do}[1]{\stepcounter{@length}}%
     \dolistcsloop{#1}%
 }}
