@@ -57,9 +57,10 @@ make any significant edits.
 These are the dependencies for this project, as well as which versions they were
 used. Older versions might still work, but are untested.
 
- * [TeX Live](https://www.tug.org/texlive/) >= `2020` (or other TeX distribution,
-   with the packages defined beneath)
+ * [TeX Live](https://www.tug.org/texlive/) >= `2020` (or other TeX
+   distribution, with the packages defined beneath)
    * [etoolbox](https://ctan.org/pkg/etoolbox) >= `2.5k`
+   * [pdfcomment](https://ctan.org/pkg/pdfcomment) >= `2.4a`
    * [textpos](https://ctan.org/pkg/textpos) >= `1.10`
    * [TikZ](https://www.ctan.org/pkg/tikz) >= `3.1.7a`
    * [xcolor](https://ctan.org/pkg/xcolor) >= `2.12`
