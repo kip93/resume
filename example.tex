@@ -5,7 +5,7 @@
 % Source:   https://github.com/kip93/resume/                                   %
 % License:  BSD 3-Clause                                                       %
 % Created:  2020-09-27                                                         %
-% Updated:  2020-12-19                                                         %
+% Updated:  2020-12-20                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % This loads the `resume.cls` file which defines all the commands used beneath.
@@ -50,55 +50,56 @@
     % A set of skills under a given category.
     \begin{skillset}{Markup}
         % A single skill that corresponds to the encompasing skill set.
-        % The format is {Skill name}{Skill score in a 1-5 range).
-        \skill{Markdown}{5}
+        % The format is {Skill name}{Skill score in a 1-5 range}{Score tooltip (optional)}.
+        \skill{Markdown}{5}{}
         % You can declare as many skills as you want inside a skill set.
-        \skill{HTML}{4}
+        \skill{HTML}{4}{}
         % Skills names support expressions.
-        \skill{\LaTeX}{5}
+        \skill{\LaTeX}{5}{}
     \end{skillset}
 
     % You can also declare as many skill sets as you need, but there must be at least one.
     \begin{skillset}{Programming}
         % Skill sets should always have at least a single skill in them.
-        \skill{Python}{5}
-        \skill{Bash}{5}
-        \skill{Java}{5}
-        \skill{C/C++}{3}
+        \skill{Python}{5}{}
+        \skill{Bash}{5}{}
+        \skill{Java}{5}{}
+        \skill{C/C++}{3}{}
     \end{skillset}
 
     \begin{skillset}{Operating Systems}
         % If you want to assert dominance with your skills, you can set them to
         % be over 9000, the resume will handle them (and just cast them to range).
-        \skill{Linux}{9001}
+        \skill{Linux}{9001}{}
         % You can even use negatives.
-        \skill{Windows}{-1}
+        \skill{Windows}{-1}{}
         % But not decimal numbers.
         % \skill{MacOS}{4.2}
     \end{skillset}
 
     \begin{skillset}{Languages}
-        \skill{English}{5}
-        \skill{Spanish}{4}
-        % You can create links wherever you want.
-        \skill{\link{https://lotr.fandom.com/wiki/Quenya}{Quenya}}{2}
+        % You may want to override the score tooltip for non-techical skills.
+        \skill{English}{5}{Native}
+        \skill{Spanish}{4}{C1 certified}
+        % You can create links to provide more context.
+        \skill{\link{https://lotr.fandom.com/wiki/Quenya}{Quenya}}{2}{Learning as a hobby}
     \end{skillset}
 
-    % And the different skill levels have tooltips to better describe the
-    % mastery (or lack thereof) of each one.
+    % And the different skill levels have default tooltips to better describe
+    % the mastery (or lack thereof) of each one.
     \begin{skillset}{All levels}
         % 5: I only use Google because it is easier.
-        \skill{Level 5}{5}
+        \skill{Level 5}{5}{}
         % 4: I can do some stuff without Google.
-        \skill{Level 4}{4}
+        \skill{Level 4}{4}{}
         % 3: I know exactly what to Google.
-        \skill{Level 3}{3}
+        \skill{Level 3}{3}{}
         % 2: I understand what I am copying from Google.
-        \skill{Level 2}{2}
+        \skill{Level 2}{2}{}
         % 1: I know some keywords that help me Google.
-        \skill{Level 1}{1}
+        \skill{Level 1}{1}{}
         % 0: I utterly stumble my way copying from Google.
-        \skill{Level 0}{0}
+        \skill{Level 0}{0}{}
     \end{skillset}
 
     % Right column
