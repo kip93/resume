@@ -5,7 +5,7 @@
 % Source:   https://github.com/kip93/resume/                                   %
 % License:  BSD 3-Clause                                                       %
 % Created:  2020-09-27                                                         %
-% Updated:  2020-12-19                                                         %
+% Updated:  2020-12-20                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{resume}[2020-12-19 My own Résumé/CV class.]
+\ProvidesClass{resume}[2020-12-20 My own Résumé/CV class.]
 \LoadClass{article}[]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -163,56 +163,93 @@
 %     * Month
 %     * Day
 %
-\newcommand{\birthday}[3]{\def\@birthday{{#1} / {#2} / {#3}}}
-\def\@birthday{}
+\newcommand{\birthday}[3]{%
+    \IfInteger{#1}{}{%
+        \ClassError{Résumé}{Year '#1' is not an integer}%
+        {The format for the command is {YYYY}{MM}{DD}.\MessageBreak}%
+    }%
+    \IfInteger{#2}{}{%
+        \ClassError{Résumé}{Month '#2' is not an integer}%
+        {The format for the command is {YYYY}{MM}{DD}.\MessageBreak}%
+    }%
+    \IfInteger{#3}{}{%
+        \ClassError{Résumé}{Day '#3' is not an integer}%
+        {The format for the command is {YYYY}{MM}{DD}.\MessageBreak}%
+    }%
+    \def\@birthday{{#1} / {#2} / {#3}}%
+}
 
 % Define the contact e-mail.
 %
 % Arguments:
 %     * e-mail address
 %
-\newcommand{\email}[1]{\def\@email{#1}}
-\def\@email{}
+\newcommand{\email}[1]{%
+    \def\@email{#1}\ifdefempty{\@email}{%
+        \ClassError{Résumé}{e-Mail '#1' is empty}%
+        {The format for the command is {e-mail}.\MessageBreak}%
+    }{}%
+}
 
 % Define the GitHub username (optional).
 %
 % Arguments:
 %     * A GitHub username
 %
-\newcommand{\github}[1]{\def\@github{#1}}
-\def\@github{}
+\newcommand{\github}[1]{%
+    \def\@github{#1}\ifdefempty{\@github}{%
+        \ClassError{Résumé}{GitHub username '#1' is empty}%
+        {The format for the command is {username}.\MessageBreak}%
+    }{}%
+}
 
 % Define the GitLab username (optional).
 %
 % Arguments:
 %     * A GitLab username
 %
-\newcommand{\gitlab}[1]{\def\@gitlab{#1}}
-\def\@gitlab{}
+\newcommand{\gitlab}[1]{%
+    \def\@gitlab{#1}\ifdefempty{\@gitlab}{%
+        \ClassError{Résumé}{GitLab username '#1' is empty}%
+        {The format for the command is {username}.\MessageBreak}%
+    }{}%
+}
 
 % Define the BitBucket username (optional).
 %
 % Arguments:
 %     * A BitBucket username
 %
-\newcommand{\bitbucket}[1]{\def\@bitbucket{#1}}
-\def\@bitbucket{}
+\newcommand{\bitbucket}[1]{%
+    \def\@bitbucket{#1}\ifdefempty{\@bitbucket}{%
+        \ClassError{Résumé}{BitBucket username '#1' is empty}%
+        {The format for the command is {username}.\MessageBreak}%
+    }{}%
+}
 
 % Define the Job title.
 %
 % Arguments:
 %     * A job title
 %
-\newcommand{\jobtitle}[1]{\def\@jobtitle{#1}}
-\def\@jobtitle{}
+\newcommand{\jobtitle}[1]{%
+    \def\@jobtitle{#1}\ifdefempty{\@jobtitle}{%
+        \ClassError{Résumé}{Job title '#1' is empty}%
+        {The format for the command is {job title}.\MessageBreak}%
+    }{}%
+}
 
 % Define the Linkedin username (optional).
 %
 % Arguments:
 %     * A Linkedin username
 %
-\newcommand{\linkedin}[1]{\def\@linkedin{#1}}
-\def\@linkedin{}
+\newcommand{\linkedin}[1]{%
+    \def\@linkedin{#1}\ifdefempty{\@linkedin}{%
+        \ClassError{Résumé}{Linkedin username '#1' is empty}%
+        {The format for the command is {username}.\MessageBreak}%
+    }{}%
+}
 
 % Define the name.
 %
@@ -220,25 +257,41 @@
 %     * Last name(s)
 %     * Fist name(s)
 %
-\newcommand{\name}[2]{\def\@lastname{#1}\def\@firstname{#2}}
-\def\@firstname{}
-\def\@lastname{}
+\newcommand{\name}[2]{%
+    \def\@lastname{#1}\def\@firstname{#2}%
+    \ifdefempty{\@lastname}{%
+        \ClassError{Résumé}{Last name '#1' is empty}%
+        {The format for the command is {last name}{first name}.\MessageBreak}%
+    }{}%
+    \ifdefempty{\@firstname}{%
+        \ClassError{Résumé}{First name '#2' is empty}%
+        {The format for the command is {last name}{first name}.\MessageBreak}%
+    }{}%
+}
 
 % Define the contact phone number.
 %
 % Arguments:
 %     * A phone number
 %
-\newcommand{\phone}[1]{\def\@phone{#1}}
-\def\@phone{}
+\newcommand{\phone}[1]{%
+    \def\@phone{#1}\ifdefempty{\@phone}{%
+        \ClassError{Résumé}{Phone number '#1' is empty}%
+        {The format for the command is {phone number}.\MessageBreak}%
+    }{}%
+}
 
 % Define a path to a profile picture.
 %
 % Arguments:
 %     * A path to an image
 %
-\newcommand{\profilepicture}[1]{\def\@profilepicture{#1}}
-\def\@profilepicture{}
+\newcommand{\profilepicture}[1]{%
+    \def\@profilepicture{#1}\ifdefempty{\@profilepicture}{%
+        \ClassError{Résumé}{Profile picture path '#1' is empty}%
+        {The format for the command is {profile picture path}.\MessageBreak}%
+    }{}%
+}
 
 % Left column
 % ---------------------------------------------------------------------------- %
@@ -249,6 +302,10 @@
 %     * The name of the skillset
 %
 \newenvironment{skillset}[1]{%
+    \def\@temp{#1}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Skillset name '#1' is empty}%
+        {The format for the environment is {skillset name}.\MessageBreak}%
+    }{}%
     % Add the skill set name to a list of all skill sets.
     \listcsgadd{@skillsetslist}{#1}%
     % Add a skill to the current skillset.
@@ -256,22 +313,43 @@
     % Arguments:
     %     * The name of the skill
     %     * The ability score for the skill
+    %     * A tooltip for the score (optional, has a default depending on value)
     %
-    \newcommand{\skill}[2]{\listcsgadd{@skillset{#1}}{{{##1}, {##2}}}}%
+    \newcommand{\skill}[3]{%
+        \def\@temp{##1}\ifdefempty{\@temp}{%
+            \ClassError{Résumé}{Skill name '##1' is empty}%
+            {%
+                The format for the command is {skill name}{skill score}{score
+                tooltip (optional)}.\MessageBreak
+            }%
+        }{}%
+        \IfInteger{##2}{}{%
+            \ClassError{Résumé}{Skill score '##2' is not an integer}%
+            {%
+                The format for the command is {skill name}{skill score}{score
+                tooltip (optional)}.\MessageBreak
+            }%
+        }%
+        \listcsgadd{@skillset{#1}}{{{##1}, {##2}, {##3}}}%
+    }%
     % Makes sure that the list is created (the "nicer"
     % `\expandafter\newcommand\csname{@skillset{#1}}\endcsname{}` was not
     % working for some reason).
-    \listcsgadd{@skillset{#1}}{foo}\listcsgremove{@skillset{#1}}{foo}%
+    \listcsgadd{@skillset{#1}}{foo}\listcsgremove{@skillset{#1}}{foo}  % Start with an empty list
 }{}
-\newcommand{\@skillsetslist}{}
+\newcommand{\@skillsetslist}{}  % Start with an empty list
 
 % Set a summary text (optional).
 %
 % Arguments:
 %     * An introductory text
 %
-\newcommand{\summary}[1]{\def\@summary{#1}}
-\def\@summary{}
+\newcommand{\summary}[1]{%
+    \def\@summary{#1}\ifdefempty{\@summary}{%
+        \ClassError{Résumé}{Summary '#1' is empty}%
+        {The format for the command is {summary text}.\MessageBreak}%
+    }{}%
+}
 
 % Right column
 % ---------------------------------------------------------------------------- %
@@ -285,8 +363,38 @@
 %     * Job title
 %     * Job description (optional)
 %
-\newcommand{\experience}[5]{\listcsgadd{@experiencelist}{{{#1}, {#2}, {#3}, {#4}, {#5}}}}
-\newcommand{\@experiencelist}{}
+\newcommand{\experience}[5]{%
+    \def\@temp{#1}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Experience start date '#1' is empty}%
+        {%
+            The format for the command is {start}{end}{employer}{job title}
+            {description (optional)}.\MessageBreak
+        }%
+    }{}%
+    \def\@temp{#2}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Experience end date '#2' is empty}%
+        {%
+            The format for the command is {start}{end}{employer}{job title}
+            {description (optional)}.\MessageBreak
+        }%
+    }{}%
+    \def\@temp{#3}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Employer '#3' is empty}%
+        {%
+            The format for the command is {start}{end}{employer}{job title}
+            {description (optional)}.\MessageBreak
+        }%
+    }{}%
+    \def\@temp{#4}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Job title '#4' is empty}%
+        {%
+            The format for the command is {start}{end}{employer}{job title}
+            {description (optional)}.\MessageBreak
+        }%
+    }{}%
+    \listcsgadd{@experiencelist}{{{#1}, {#2}, {#3}, {#4}, {#5}}}%
+}
+\newcommand{\@experiencelist}{}  % Start with an empty list
 
 % Add an education entry (optional).
 %
@@ -294,11 +402,41 @@
 %     * Start date
 %     * End date
 %     * University
-%     * Title
+%     * Degree
 %     * Notes (optional)
 %
-\newcommand{\education}[5]{\listcsgadd{@educationlist}{{{#1}, {#2}, {#3}, {#4}, {#5}}}}
-\newcommand{\@educationlist}{}
+\newcommand{\education}[5]{%
+    \def\@temp{#1}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Education start date '#1' is empty}%
+        {%
+            The format for the command is {start}{end}{university}{degree}{notes
+            optional)}.\MessageBreak
+        }%
+    }{}%
+    \def\@temp{#2}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Education end date '#2' is empty}%
+        {%
+            The format for the command is {start}{end}{university}{degree}{notes
+            optional)}.\MessageBreak
+        }%
+    }{}%
+    \def\@temp{#3}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{University '#3' is empty}%
+        {%
+            The format for the command is {start}{end}{university}{degree}{notes
+            optional)}.\MessageBreak
+        }%
+    }{}%
+    \def\@temp{#4}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Degree '#4' is empty}%
+        {%
+            The format for the command is {start}{end}{university}{degree}{notes
+            optional)}.\MessageBreak
+        }%
+    }{}%
+    \listcsgadd{@educationlist}{{{#1}, {#2}, {#3}, {#4}, {#5}}}%
+}
+\newcommand{\@educationlist}{}  % Start with an empty list
 
 % Add a publication entry (optional).
 %
@@ -308,8 +446,31 @@
 %     * URL
 %     * Description (optional)
 %
-\newcommand{\publication}[4]{\listcsgadd{@publicationslist}{{{#1}, {#2}, {#3}, {#4}}}}
-\newcommand{\@publicationslist}{}
+\newcommand{\publication}[4]{%
+    \def\@temp{#1}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Publication date '#1' is empty}%
+        {%
+            The format for the command is {date}{title}{url}{description
+            (optional)}.\MessageBreak
+        }%
+    }{}%
+    \def\@temp{#2}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Title '#2' is empty}%
+        {%
+            The format for the command is {date}{title}{url}{description
+            (optional)}.\MessageBreak
+        }%
+    }{}%
+    \def\@temp{#3}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{URL '#3' is empty}%
+        {%
+            The format for the command is {date}{title}{url}{description
+            (optional)}.\MessageBreak
+        }%
+    }{}%
+    \listcsgadd{@publicationslist}{{{#1}, {#2}, {#3}, {#4}}}%
+}
+\newcommand{\@publicationslist}{}  % Start with an empty list
 
 % Wrapper
 % ---------------------------------------------------------------------------- %
@@ -319,7 +480,6 @@
 \newenvironment{resume}{%
     \document         % Equivalent to `\begin{document}`.
 }{%
-    \@validate        % Run some checks to show nicer error messages.
     \@setmetadata     % Sets the PDF metadata.
     \@makebackground  % Sets the coloured background for the document.
     \@makeheader      % Create the top header part of the document.
@@ -386,7 +546,9 @@
         {Sized can only handle integers.\MessageBreak}%
     }%
     \begin{@numswitch}{#1}%
-        \@case{<}{-4}{\tiny#2\ClassWarning{Résumé}{Size #1 is too small, casting to -4}}%
+        \@case{<}{-4}{\tiny#2\ClassWarning{Résumé}{%
+            Size #1 is too small, casting to -4
+        }}%
         \@case{=}{-4}{\tiny#2}%
         \@case{=}{-3}{\scriptsize#2}%
         \@case{=}{-2}{\footnotesize#2}%
@@ -397,7 +559,9 @@
         \@case{=}{+3}{\LARGE#2}%
         \@case{=}{+4}{\huge#2}%
         \@case{=}{+5}{\Huge#2}%
-        \@case{>}{+5}{\Huge#2\ClassWarning{Résumé}{Size #1 is too big, casting to +5}}%
+        \@case{>}{+5}{\Huge#2\ClassWarning{Résumé}{%
+            Size #1 is too big, casting to +5
+        }}%
     \end{@numswitch}%
 }
 
@@ -420,6 +584,13 @@
 %     * Display text (optional)
 %
 \newcommand{\link}[2]{%
+    \def\@temp{#1}\ifdefempty{\@temp}{%
+        \ClassError{Résumé}{Link URL '#1' is empty}%
+        {%
+            The format for the command is {url}{display text (optional)}.
+            \MessageBreak
+        }%
+    }{}%
     \def\@displaytext{#2}\ifdefempty{\@displaytext}{\url{#1}}{\href{#1}{#2}}%
 }
 
@@ -472,105 +643,20 @@
 % Internal commands                                                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Validation
-% ---------------------------------------------------------------------------- %
-
-% Validate the user configuration. Throws warnings and errors depending on
-% input.
-%
-\newcommand{\@validate}[0]{%
-    \@validateheader%
-    \@validateleft%
-    \@validateright%
-}
-
-% Validate the user configuration correspondong to the header.
-%
-\newcommand{\@validateheader}[0]{%
-    \ifdefempty{\@birthday}{  % Birthday is mandatory.
-        \ClassError{Résumé}{Birthday is missing}%
-        {Check the "birthday" command.\MessageBreak}%
-    }{}%
-    \ifdefempty{\@email}{  % e-Mail is mandatory.
-        \ClassError{Résumé}{e-Mail is missing}%
-        {Check the "email" command.\MessageBreak}%
-    }{}%
-    \ifdefempty{\@github}{  % GitHub username is optional.
-        \ClassWarning{Résumé}{GitHub username is missing (URL will be skipped)}%
-    }{}%
-    \ifdefempty{\@gitlab}{  % GitLab username is optional.
-        \ClassWarning{Résumé}{GitLab username is missing (URL will be skipped)}%
-    }{}%
-    \ifdefempty{\@bitbucket}{  % BitBucket username is optional.
-        \ClassWarning{Résumé}{BitBucket username is missing (URL will be skipped)}%
-    }{}%
-    \ifdefempty{\@jobtitle}{  % Job title is mandatory.
-        \ClassError{Résumé}{Job title is missing}%
-        {Check the "jobtitle" command.\MessageBreak}%
-    }{}%
-    \ifdefempty{\@linkedin}{  % Linkedin username is optional.
-        \ClassWarning{Résumé}{Linkedin username is missing (URL will be skipped)}%
-    }{}%
-    \ifdefempty{\@firstname}{\ifdefempty{\@lastname}{  % Name is mandatory.
-        \ClassError{Résumé}{Name is missing}%
-        {Check the "name" command.\MessageBreak}%
-    }{}}{}%
-    \ifdefempty{\@firstname}{  % Name is mandatory.
-        \ClassError{Résumé}{First name is missing}%
-        {Check the "name" command.\MessageBreak}%
-    }{}%
-    \ifdefempty{\@lastname}{  % Name is mandatory.
-        \ClassError{Résumé}{Last name is missing}%
-        {Check the "name" command.\MessageBreak}%
-    }{}%
-    \ifdefempty{\@phone}{  % Phone number is mandatory.
-        \ClassError{Résumé}{Phone number is missing}%
-        {Check the "phone" command.\MessageBreak}%
-    }{}%
-    \ifdefempty{\@profilepicture}{  % Profile picture is mandatory.
-        \ClassError{Résumé}{Profile picture is missing}%
-        {Check the "profilepicture" command.\MessageBreak}%
-    }{}%
-}
-
-% Validate the user configuration correspondong to left column.
-%
-\newcommand{\@validateleft}[0]{{%
-    \ifdefempty{\@summary}{  % Summary is optional.
-        \ClassWarning{Résumé}{Summary text is not present (section will be skipped)}%
-    }{}%
-    \@measure{@skillsetslist}\ifnumequal{\the@length}{0}{  % Skillsets are mandatory.
-        \ClassError{Résumé}{No skillset present}%
-        {Check the "skillset" environment.\MessageBreak}%
-    }{}%
-    \renewcommand{\do}[1]{  % Skillsets cannot be empty.
-        \@measure{@skillset{##1}}\ifnumequal{\the@length}{0}{%
-            \ClassError{Résumé}{Skillset "##1" is empty}%
-            {Check the "skill" command.\MessageBreak}%
-        }{}%
-    }\dolistcsloop{@skillsetslist}%
-}}
-
-% Validate the user configuration correspondong to the right column.
-%
-\newcommand{\@validateright}[0]{%
-    \@measure{@experiencelist}\ifnumequal{\the@length}{0}{  % Experience is optional.
-        \ClassWarning{Résumé}{No experience given (section will be skipped)}%
-    }{}%
-    \@measure{@educationlist}\ifnumequal{\the@length}{0}{  % Education is optional.
-        \ClassWarning{Résumé}{No education given (section will be skipped)}%
-    }{}%
-    \@measure{@publicationslist}\ifnumequal{\the@length}{0}{  % Publications are optional.
-        \ClassWarning{Résumé}{No publications given (section will be skipped)}%
-    }{}%
-}
-
 % Metadata
 % ---------------------------------------------------------------------------- %
 
 % Set the PDF metadata.
 %
 \newcommand{\@setmetadata}[0]{%
+    \ifdefvoid{\@lastname}{%
+        \ClassError{Résumé}{Name is missing}%
+        {Check the 'name' command.\MessageBreak}%
+    }{%
+    \ifdefvoid{\@firstname}{%
+        \ClassError{Résumé}{Name is missing}%
+        {Check the 'name' command.\MessageBreak}%
+    }{}}%
     \hypersetup{
         pdfauthor={\@lastname, \@firstname},
         pdftitle={\@lastname, \@firstname: Résumé},
@@ -614,30 +700,63 @@
 % Make the résumé header's text.
 %
 \newcommand{\@makepersonalinfo}[0]{%
-    \begin{textblock*}{0.69\paperwidth}(10mm, 4mm)\begin{flushright}{%
-            % Name.
+    \begin{textblock*}{0.69\paperwidth}(10mm, 4mm)\begin{flushright}
+        % Name.
+        {%
+            \ifdefvoid{\@lastname}{%
+                \ClassError{Résumé}{Name is missing}%
+                {Check the 'name' command.\MessageBreak}%
+            }{%
+            \ifdefvoid{\@firstname}{%
+                \ClassError{Résumé}{Name is missing}%
+                {Check the 'name' command.\MessageBreak}%
+            }{}}%
             \formatted{text}{bold}{+3}{\stylised{smallcase}{\@lastname}, \@firstname}%
+        % Job title.
         }\par\vspace{2mm}{%
-            % Job title.
+            \ifdefvoid{\@jobtitle}{
+                \ClassError{Résumé}{Job title is missing}%
+                {Check the 'jobtitle' command.\MessageBreak}%
+            }{}%
             \formatted{text}{italic}{+2}{\@jobtitle}%
+        % Birthday.
         }\par\vspace{3mm}{%
-            % Birthday.
+            \ifdefvoid{\@birthday}{%
+                \ClassError{Résumé}{Birthday is missing}%
+                {Check the 'birthday' command.\MessageBreak}%
+            }{}%
             \formatted{dimtext}{regular}{+1}{\@birthday}%
+        % e-Mail & phone.
         }\par\vspace{3mm}{%
-            % e-Mail & phone.
+            \ifdefvoid{\@email}{%
+                \ClassError{Résumé}{e-Mail is missing}%
+                {Check the 'email' command.\MessageBreak}%
+            }{}%
             \formattedlink{dimtext}{regular}{+1}{mailto:\@email}{\@email}%
+            \ifdefvoid{\@phone}{%
+                \ClassError{Résumé}{Phone number is missing}%
+                {Check the 'phone' command.\MessageBreak}%
+            }{}%
             \formatted{dimtext}{regular}{+1}{\hspace{2mm}/\hspace{2mm}{\@phone}}%
-        }\par\vspace{2mm}\ifdefempty{\@linkedin}{}{{%
-            % Linkedin.
+        % Linkedin.
+        }\par\vspace{2mm}\ifdefvoid{\@linkedin}{%
+            \ClassWarning{Résumé}{Linkedin username is missing (URL will be skipped)}%
+        }{{%
             \formattedlink{highlight}{regular}{+1}{https://linkedin.com/in/\@linkedin/}{}%
-        }\par\vspace{2mm}}\ifdefempty{\@github}{}{{%
-            % GitHub.
+        % GitHub.
+        }\par\vspace{2mm}}\ifdefvoid{\@github}{%
+            \ClassWarning{Résumé}{GitHub username is missing (URL will be skipped)}%
+        }{{%
             \formattedlink{highlight}{regular}{+1}{https://github.com/\@github/}{}%
-        }\par\vspace{2mm}}\ifdefempty{\@gitlab}{}{{%
-            % GitLab.
+        % GitLab.
+        }\par\vspace{2mm}}\ifdefvoid{\@gitlab}{%
+            \ClassWarning{Résumé}{GitLab username is missing (URL will be skipped)}%
+        }{{%
             \formattedlink{highlight}{regular}{+1}{https://gitlab.com/\@gitlab/}{}%
-        }\par\vspace{2mm}}\ifdefempty{\@bitbucket}{}{{%
-            % BitBucket.
+        % BitBucket.
+        }\par\vspace{2mm}}\ifdefvoid{\@bitbucket}{%
+            \ClassWarning{Résumé}{BitBucket username is missing (URL will be skipped)}%
+        }{{%
             \formattedlink{highlight}{regular}{+1}{https://bitbucket.com/\@bitbucket/}{}%
         }\par\vspace{2mm}}%
     \end{flushright}\end{textblock*}%
@@ -646,6 +765,10 @@
 % Make the résumé header's profile picture.
 %
 \newcommand{\@makeprofilepicture}[0]{%
+    \ifdefvoid{\@profilepicture}{%
+        \ClassError{Résumé}{Profile picture is missing}%
+        {Check the 'profilepicture' command.\MessageBreak}%
+    }{}%
     \begin{tikzpicture}[overlay]
         \node[
             rectangle,
@@ -674,8 +797,8 @@
     \colorlet{altbackground} {@lightgray}%
     \colorlet{highlight}     {@darkhighlight}%
     % Commands for section titles coloured according to background.
-    \newcommand\@leftsection[1]{\@newsection{text}{##1}}%
-    \newcommand\@leftsubsection[1]{\@newsubsection{highlight}{##1}}%
+    \newcommand{\@leftsection}[1]{\@newsection{text}{##1}}%
+    \newcommand{\@leftsubsection}[1]{\@newsubsection{highlight}{##1}}%
     %
     % Create the left column.
     \begin{textblock*}{62mm}(4mm, 52mm)\begin{flushleft}%
@@ -687,7 +810,9 @@
 % Make the résumé left column's about me section.
 %
 \newcommand{\@makesummary}[0]{%
-    \ifdefempty{\@summary}{}{%
+    \ifdefvoid{\@summary}{%
+        \ClassWarning{Résumé}{Summary text is not present (section will be skipped)}%
+    }{%
         \@leftsection{About me}{\vspace{-3mm}\setlength{\parskip}{3mm}%
             \formatted{dimtext}{regular}{+0}{\@summary}%
         }\par\vspace{4mm}%
@@ -697,6 +822,10 @@
 % Make the résumé left column's skills section.
 %
 \newcommand{\@makeskills}[0]{{%
+    \@measure{@skillsetslist}\ifnumequal{\the@length}{0}{%
+        \ClassError{Résumé}{No skillset present}%
+        {Check the 'skillset' environment.\MessageBreak}%
+    }{}%
     \@leftsection{Skills}{%
         \renewcommand{\do}[1]{%
             \@makeskillset{##1}%
@@ -706,7 +835,16 @@
 
 % Make a single résumé left column's skillset.
 %
+% Arguments:
+%     * The name of the skillset
+%
 \newcommand{\@makeskillset}[1]{{%
+    \renewcommand{\do}[1]{%
+        \@measure{@skillset{##1}}\ifnumequal{\the@length}{0}{%
+            \ClassError{Résumé}{Skillset '##1' is empty}%
+            {Check the 'skill' command.\MessageBreak}%
+        }{}%
+    }\dolistcsloop{@skillsetslist}%
     \@leftsubsection{#1}{%
         \renewcommand{\do}[1]{%
             \@makeskill{##1}%
@@ -716,23 +854,28 @@
 
 % Make a single résumé left column's skillset's skill.
 %
+% Arguments:
+%     * The name, score, and tooltip of the skill
+%
 \newcommand{\@makeskill}[1]{{%
-    \def\@name{}   % Skill name.
-    \def\@score{}  % Skill score.
-    \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
-        \ifdefempty{\@name}{\def\@name{{##1}}}{\def\@score{##1}}%
+    \renewcommand{\do}[1]{% Iterate over the entry to recover values.
+        \ifdefvoid{\@skillname}{\def\@skillname{##1}}{%
+        \ifdefvoid{\@skillscore}{\def\@skillscore{##1}}{%
+                                 \def\@skilltooltip{##1}}}%
     }\docsvlist{#1}%
     %
-    \coloured{dimtext}{\@name}\hfill  % Set the skill name.
+    \coloured{dimtext}{\@skillname}\hfill% Set the skill name.
     \tooltip{\foreach \@x in {1, ..., 5}{% Draw the circles.
-        \hspace{1mm}\@makecircle{\ifnumgreater{\@x}{\@score}{altbackground}{highlight}}%
+        \hspace{1mm}\@makecircle{\ifnumgreater{\@x}{\@skillscore}{altbackground}{highlight}}%
     }}{%
-        \ifnumless{\@score}{1} {0: I utterly stumble my way copying from Google.}{%
-        \ifnumequal{\@score}{1}{1: I know some keywords that help me Google.}{%
-        \ifnumequal{\@score}{2}{2: I understand what I am copying from Google.}{%
-        \ifnumequal{\@score}{3}{3: I know exactly what to Google.}{%
-        \ifnumequal{\@score}{4}{4: I can do some stuff without Google.}{%
-                                5: I only use Google because it is easier.}}}}}%
+        \ifdefempty{\@skilltooltip}{%
+        \ifnumless{\@skillscore}{1} {0: I utterly stumble my way copying from Google.}{%
+        \ifnumequal{\@skillscore}{1}{1: I know some keywords that help me Google.}{%
+        \ifnumequal{\@skillscore}{2}{2: I understand what I am copying from Google.}{%
+        \ifnumequal{\@skillscore}{3}{3: I know exactly what to Google.}{%
+        \ifnumequal{\@skillscore}{4}{4: I can do some stuff without Google.}{%
+                                     5: I only use Google because it is easier.}}}}}}{%
+                                     \@skilltooltip}%
     }\par%
 }}
 
@@ -768,28 +911,26 @@
                 \@makeexperienceentry{##1}%
             }\dolistcsloop{@experiencelist}%
         }\vspace{1mm}%
-    }{}%
+    }{\ClassWarning{Résumé}{No experience given (section will be skipped)}}%
 }}
 
 % Make the résumé right column's single experience entry.
 %
+% Arguments:
+%     * The start, end, employer, job title, and description
+%
 \newcommand{\@makeexperienceentry}[1]{{%
-    \def\@start{}           % Job start.
-    \def\@end{}             % Job end.
-    \def\@employer{}        % Employer.
-    \def\@jobtitle{}        % Job title.
-    \def\@jobdescription{}  % Job description.
-    \renewcommand{\do}[1]{  % Iterate over the entry to recover values.
-        \ifdefempty{\@start}{\def\@start{{##1}}}{%
-        \ifdefempty{\@end}{\def\@end{{##1}}}{%
-        \ifdefempty{\@employer}{\def\@employer{{##1}}}{%
-        \ifdefempty{\@jobtitle}{\def\@jobtitle{{##1}}}{%
-        \def\@jobdescription{##1}}}}}%
+    \renewcommand{\do}[1]{% Iterate over the entry to recover values.
+        \ifdefvoid{\@jobstart}{\def\@jobstart{##1}}{%
+        \ifdefvoid{\@jobend}{\def\@jobend{##1}}{%
+        \ifdefvoid{\@jobemployer}{\def\@jobemployer{##1}}{%
+        \ifdefvoid{\@jobtitle}{\def\@jobtitle{##1}}{%
+                               \def\@jobdescription{##1}}}}}%
     }\docsvlist{#1}%
     %
-    \formatted{dimtext}{bold}{+0}{\@employer}\par\vspace{1mm}%
+    \formatted{dimtext}{bold}{+0}{\@jobemployer}\par\vspace{1mm}%
     \formatted{dimtext}{smallcase}{+0}{\@jobtitle}\hfill%
-    \formatted{dimtext}{regular}{+0}{\@start{ -- }\@end}\ifdefempty{\@jobdescription}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{regular}{+0}{\@jobstart{ -- }\@jobend}\ifdefempty{\@jobdescription}{}{\par\vspace{2mm}%
     \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@jobdescription}}\par\vspace{3mm}%
 }}
 
@@ -802,29 +943,27 @@
                 \@makeeducationentry{##1}%
             }\dolistcsloop{@educationlist}%
         }\vspace{1mm}%
-    }{}%
+    }{\ClassWarning{Résumé}{No education given (section will be skipped)}}%
 }}
 
 % Make the résumé right column's single education entry.
 %
+% Arguments:
+%     * The start, end, university, degree, and description
+%
 \newcommand{\@makeeducationentry}[1]{{%
-    \def\@start{}        % Education start.
-    \def\@end{}          % Education end.
-    \def\@university{}   % University / Institution.
-    \def\@title{}        % Title obtained.
-    \def\@description{}  % Description.
     \renewcommand{\do}[1]{% Iterate over the entry to recover values.
-        \ifdefempty{\@start}{\def\@start{{##1}}}{%
-        \ifdefempty{\@end}{\def\@end{{##1}}}{%
-        \ifdefempty{\@university}{\def\@university{{##1}}}{%
-        \ifdefempty{\@title}{\def\@title{{##1}}}{%
-        \def\@description{##1}}}}}%
+        \ifdefvoid{\@educationstart}{\def\@educationstart{##1}}{%
+        \ifdefvoid{\@educationend}{\def\@educationend{##1}}{%
+        \ifdefvoid{\@educationuniversity}{\def\@educationuniversity{##1}}{%
+        \ifdefvoid{\@educationdegree}{\def\@educationdegree{##1}}{%
+                                      \def\@educationdescription{##1}}}}}%
     }\docsvlist{#1}%
     %
-    \formatted{dimtext}{bold}{+0}{\@title}\par\vspace{1mm}%
-    \formatted{dimtext}{smallcase}{+0}{\@university}\hfill%
-    \formatted{dimtext}{regular}{+0}{\@start{ -- }\@end}\ifdefempty{\@description}{}{\par\vspace{2mm}%
-    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@description}}\par\vspace{3mm}%
+    \formatted{dimtext}{bold}{+0}{\@educationdegree}\par\vspace{1mm}%
+    \formatted{dimtext}{smallcase}{+0}{\@educationuniversity}\hfill%
+    \formatted{dimtext}{regular}{+0}{\@educationstart{ -- }\@educationend}\ifdefempty{\@educationdescription}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@educationdescription}}\par\vspace{3mm}%
 }}
 
 % Make the résumé right column's publications.
@@ -836,48 +975,67 @@
                 \@makepublicationentry{##1}%
             }\dolistcsloop{@publicationslist}%
         }\vspace{1mm}%
-    }{}%
+    }{\ClassWarning{Résumé}{No publications given (section will be skipped)}}%
 }}
 
 % Make the résumé right column's single publication entry.
 %
+% Arguments:
+%     * The date, title, url, and description
+%
 \newcommand{\@makepublicationentry}[1]{{%
-    \def\@date{}         % Publication date.
-    \def\@title{}        % Publication title.
-    \def\@link{}         % Link to publication.
-    \def\@description{}  % Description.
     \renewcommand{\do}[1]{% Iterate over the entry to recover values.
-        \ifdefempty{\@date}{\def\@date{{##1}}}{%
-        \ifdefempty{\@title}{\def\@title{{##1}}}{%
-        \ifdefempty{\@link}{\def\@link{##1}}{%
-        \def\@description{##1}}}}%
+        \ifdefvoid{\@publicationdate}{\def\@publicationdate{##1}}{%
+        \ifdefvoid{\@publicationtitle}{\def\@publicationtitle{##1}}{%
+        \ifdefvoid{\@publicationlink}{\def\@publicationlink{##1}}{%
+                                      \def\@publicationdescription{##1}}}}%
     }\docsvlist{#1}%
     %
-    \formatted{dimtext}{bold}{+0}{\@title}\par\vspace{1mm}%
-    \formattedlink{highlight}{regular}{+0}{\@link}{}\hfill%
-    \formatted{dimtext}{regular}{+0}{\@date}\ifdefempty{\@description}{}{\par\vspace{2mm}%
-    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@description}}\par\vspace{3mm}%
+    \formatted{dimtext}{bold}{+0}{\@publicationtitle}\par\vspace{1mm}%
+    \formattedlink{highlight}{regular}{+0}{\@publicationlink}{}\hfill%
+    \formatted{dimtext}{regular}{+0}{\@publicationdate}\ifdefempty{\@publicationdescription}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@publicationdescription}}\par\vspace{3mm}%
 }}
 
 % Utility methods
 % ---------------------------------------------------------------------------- %
 
 % A command used internally to create sections.
+%
+% Arguments:
+%     * Colour
+%     * Text
+%
 \newcommand{\@newsection}[2]{%
-    \raisebox{0mm}{\makebox[\linewidth]{\raisebox{-1mm}{\formatted{#1}{regular}{+3}{#2}}\hspace{2mm}\@hlinefill{1pt}}}\par\vspace{2mm}%
+    \raisebox{0mm}{%
+        \makebox[\linewidth]{\raisebox{-1mm}{\formatted{#1}{regular}{+3}{#2}}\hspace{2mm}\@hlinefill{1pt}}%
+    }\par\vspace{2mm}%
 }
 
 % A command used internally to create subsections.
+%
+% Arguments:
+%     * Colour
+%     * Text
+%
 \newcommand{\@newsubsection}[2]{%
     \formatted{#1}{regular}{+1}{#2}\par\vspace{0.5mm}%
 }
 
 % A command used internally to make a resizable hrulefill.
+%
+% Arguments:
+%     * Line width
+%
 \newcommand{\@hlinefill}[1]{%
     \def\@foo{\leavevmode\leaders\hrule height #1\hfill\kern\z@}\@foo%
 }
 
 % A command used internally to create circles inline.
+%
+% Arguments:
+%     * Fill colour
+%
 \newcommand{\@makecircle}[1]{%
     \begin{tikzpicture}[scale=0.15]%
         \node[
@@ -888,6 +1046,14 @@
 }
 
 % A command used internally to create rectangles as an overlay.
+%
+% Arguments:
+%     * Fill colour
+%     * Anchor point
+%     * Width
+%     * Height
+%     * Position
+%
 \newcommand{\@makerectangleoverlay}[5]{%
     \begin{tikzpicture}[overlay]
         \node[
@@ -905,20 +1071,46 @@
 \newcommand{\@default}[0]{}
 
 % A command used internally as a switch case for strings.
+%
+% Arguments:
+%     * A string to compare against some cases
+%
 \newenvironment{@stringswitch}[1]{%
     \def\@switched{}%
+    % A case to be matched.
+    %
+    % Arguments:
+    %     * A string to compare
+    %     * The result to use if comparison is true
+    %
     \renewcommand{\@case}[2]{\ifdefempty{\@switched}{\ifstrequal{#1}{##1}{##2\def\@switched{true}}{}}{}}%
+    % A case to use if no matches are found.
+    %
+    % Arguments:
+    %     * The result to use if no other case matches the given value
+    %
     \renewcommand{\@default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
 }{%
 }
 
 % A command used internally as a switch case for decimal numbers.
+%
+% Arguments:
+%     * A number to compare against some cases
+%
 \newenvironment{@numswitch}[1]{%
     \IfDecimal{#1}{}{%
         \ClassError{Résumé}{Num switch with non number '#1'}%
         {Num switch can only handle numbers.\MessageBreak}%
     }%
     \def\@switched{}%
+    % A case to be matched.
+    %
+    % Arguments:
+    %     * A comparison (<, =, or >)
+    %     * A number to compare
+    %     * The result to use if comparison is true
+    %
     \renewcommand{\@case}[3]{%
         \IfDecimal{##2}{}{%
             \ClassError{Résumé}{Num switch case with non number '##2'}%
@@ -926,6 +1118,11 @@
         }%
         \ifdefempty{\@switched}{\ifdimcomp{#1 pt}{##1}{##2 pt}{##3\def\@switched{true}}{}}{}%
     }%
+    % A case to use if no matches are found.
+    %
+    % Arguments:
+    %     * The result to use if no other case matches the given value
+    %
     \renewcommand{\@default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
 }{%
 }
@@ -934,6 +1131,10 @@
 \newcounter{@length}%
 
 % A command used internally to measure an etoolbox list.
+%
+% Arguments:
+%     * The name of the etoolbox list
+%
 \newcommand{\@measure}[1]{{%
     \setcounter{@length}{0}%
     \renewcommand{\do}[1]{\stepcounter{@length}}%
