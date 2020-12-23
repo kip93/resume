@@ -5,7 +5,7 @@
 % Source:   https://github.com/kip93/resume/                                   %
 % License:  BSD 3-Clause                                                       %
 % Created:  2020-09-27                                                         %
-% Updated:  2020-12-20                                                         %
+% Updated:  2020-12-23                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{resume}[2020-12-20 My own Résumé/CV class.]
+\ProvidesClass{resume}[2020-12-23 My own Résumé/CV class.]
 \LoadClass{article}[]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -272,11 +272,17 @@
 % Define the contact phone number.
 %
 % Arguments:
-%     * A phone number
+%     * The phone number to be displayed
+%     * The same number but without any spaces, dashes, and the like (except '+'
+%       for the country code), to be used to create a clickable link
 %
-\newcommand{\phone}[1]{%
-    \def\@phone{#1}\ifdefempty{\@phone}{%
-        \ClassError{Résumé}{Phone number '#1' is empty}%
+\newcommand{\phone}[2]{%
+    \def\@phonedisplay{#1}\ifdefempty{\@phonedisplay}{%
+        \ClassError{Résumé}{Display phone number '#1' is empty}%
+        {The format for the command is {phone number}.\MessageBreak}%
+    }{}%
+    \def\@phonenumber{#2}\ifdefempty{\@phonenumber}{%
+        \ClassError{Résumé}{Phone number '#2' is empty}%
         {The format for the command is {phone number}.\MessageBreak}%
     }{}%
 }
@@ -733,32 +739,33 @@
                 {Check the 'email' command.\MessageBreak}%
             }{}%
             \formattedlink{dimtext}{regular}{+1}{mailto:\@email}{\@email}%
-            \ifdefvoid{\@phone}{%
+            \formatted{dimtext}{regular}{+1}{\hspace{2mm}/\hspace{2mm}}%
+            \ifdefvoid{\@phonenumber}{%
                 \ClassError{Résumé}{Phone number is missing}%
                 {Check the 'phone' command.\MessageBreak}%
             }{}%
-            \formatted{dimtext}{regular}{+1}{\hspace{2mm}/\hspace{2mm}{\@phone}}%
+            \formattedlink{dimtext}{regular}{+1}{tel:\@phonenumber}{\@phonedisplay}%
         % Linkedin.
         }\par\vspace{2mm}\ifdefvoid{\@linkedin}{%
             \ClassWarning{Résumé}{Linkedin username is missing (URL will be skipped)}%
-        }{{%
+        }{%
             \formattedlink{highlight}{regular}{+1}{https://linkedin.com/in/\@linkedin/}{}%
         % GitHub.
-        }\par\vspace{2mm}}\ifdefvoid{\@github}{%
+        \par\vspace{2mm}}\ifdefvoid{\@github}{%
             \ClassWarning{Résumé}{GitHub username is missing (URL will be skipped)}%
-        }{{%
+        }{%
             \formattedlink{highlight}{regular}{+1}{https://github.com/\@github/}{}%
         % GitLab.
-        }\par\vspace{2mm}}\ifdefvoid{\@gitlab}{%
+        \par\vspace{2mm}}\ifdefvoid{\@gitlab}{%
             \ClassWarning{Résumé}{GitLab username is missing (URL will be skipped)}%
-        }{{%
+        }{%
             \formattedlink{highlight}{regular}{+1}{https://gitlab.com/\@gitlab/}{}%
         % BitBucket.
-        }\par\vspace{2mm}}\ifdefvoid{\@bitbucket}{%
+        \par\vspace{2mm}}\ifdefvoid{\@bitbucket}{%
             \ClassWarning{Résumé}{BitBucket username is missing (URL will be skipped)}%
-        }{{%
+        }{%
             \formattedlink{highlight}{regular}{+1}{https://bitbucket.com/\@bitbucket/}{}%
-        }\par\vspace{2mm}}%
+        \par\vspace{2mm}}%
     \end{flushright}\end{textblock*}%
 }
 
