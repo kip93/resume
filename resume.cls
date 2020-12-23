@@ -866,23 +866,23 @@
 %
 \newcommand{\@makeskill}[1]{{%
     \renewcommand{\do}[1]{% Iterate over the entry to recover values.
-        \ifdefvoid{\@skillname}{\def\@skillname{##1}}{%
-        \ifdefvoid{\@skillscore}{\def\@skillscore{##1}}{%
-                                 \def\@skilltooltip{##1}}}%
+        \ifdefvoid{\local@skillname}{\def\local@skillname{##1}}{%
+        \ifdefvoid{\local@skillscore}{\def\local@skillscore{##1}}{%
+                                      \def\local@skilltooltip{##1}}}%
     }\docsvlist{#1}%
     %
-    \coloured{dimtext}{\@skillname}\hfill% Set the skill name.
+    \coloured{dimtext}{\local@skillname}\hfill% Set the skill name.
     \tooltip{\foreach \@x in {1, ..., 5}{% Draw the circles.
-        \hspace{1mm}\@makecircle{\ifnumgreater{\@x}{\@skillscore}{altbackground}{highlight}}%
+        \hspace{1mm}\@makecircle{\ifnumgreater{\@x}{\local@skillscore}{altbackground}{highlight}}%
     }}{%
-        \ifdefempty{\@skilltooltip}{%
-        \ifnumless{\@skillscore}{1} {0: I utterly stumble my way copying from Google.}{%
-        \ifnumequal{\@skillscore}{1}{1: I know some keywords that help me Google.}{%
-        \ifnumequal{\@skillscore}{2}{2: I understand what I am copying from Google.}{%
-        \ifnumequal{\@skillscore}{3}{3: I know exactly what to Google.}{%
-        \ifnumequal{\@skillscore}{4}{4: I can do some stuff without Google.}{%
-                                     5: I only use Google because it is easier.}}}}}}{%
-                                     \@skilltooltip}%
+        \ifdefempty{\local@skilltooltip}{%
+        \ifnumless{\local@skillscore}{1} {0: I utterly stumble my way copying from Google.}{%
+        \ifnumequal{\local@skillscore}{1}{1: I know some keywords that help me Google.}{%
+        \ifnumequal{\local@skillscore}{2}{2: I understand what I am copying from Google.}{%
+        \ifnumequal{\local@skillscore}{3}{3: I know exactly what to Google.}{%
+        \ifnumequal{\local@skillscore}{4}{4: I can do some stuff without Google.}{%
+                                          5: I only use Google because it is easier.}}}}}}{%
+                                          \local@skilltooltip}%
     }\par%
 }}
 
@@ -928,17 +928,17 @@
 %
 \newcommand{\@makeexperienceentry}[1]{{%
     \renewcommand{\do}[1]{% Iterate over the entry to recover values.
-        \ifdefvoid{\@jobstart}{\def\@jobstart{##1}}{%
-        \ifdefvoid{\@jobend}{\def\@jobend{##1}}{%
-        \ifdefvoid{\@jobemployer}{\def\@jobemployer{##1}}{%
-        \ifdefvoid{\@jobtitle}{\def\@jobtitle{##1}}{%
-                               \def\@jobdescription{##1}}}}}%
+        \ifdefvoid{\local@jobstart}{\def\local@jobstart{##1}}{%
+        \ifdefvoid{\local@jobend}{\def\local@jobend{##1}}{%
+        \ifdefvoid{\local@jobemployer}{\def\local@jobemployer{##1}}{%
+        \ifdefvoid{\local@jobtitle}{\def\local@jobtitle{##1}}{%
+                                    \def\local@jobdescription{##1}}}}}%
     }\docsvlist{#1}%
     %
-    \formatted{dimtext}{bold}{+0}{\@jobemployer}\par\vspace{1mm}%
-    \formatted{dimtext}{smallcase}{+0}{\@jobtitle}\hfill%
-    \formatted{dimtext}{regular}{+0}{\@jobstart{ -- }\@jobend}\ifdefempty{\@jobdescription}{}{\par\vspace{2mm}%
-    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@jobdescription}}\par\vspace{3mm}%
+    \formatted{dimtext}{bold}{+0}{\local@jobemployer}\par\vspace{1mm}%
+    \formatted{dimtext}{smallcase}{+0}{\local@jobtitle}\hfill%
+    \formatted{dimtext}{regular}{+0}{\local@jobstart{ -- }\local@jobend}\ifdefempty{\local@jobdescription}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\local@jobdescription}}\par\vspace{3mm}%
 }}
 
 % Make the résumé right column's education.
@@ -960,17 +960,17 @@
 %
 \newcommand{\@makeeducationentry}[1]{{%
     \renewcommand{\do}[1]{% Iterate over the entry to recover values.
-        \ifdefvoid{\@educationstart}{\def\@educationstart{##1}}{%
-        \ifdefvoid{\@educationend}{\def\@educationend{##1}}{%
-        \ifdefvoid{\@educationuniversity}{\def\@educationuniversity{##1}}{%
-        \ifdefvoid{\@educationdegree}{\def\@educationdegree{##1}}{%
-                                      \def\@educationdescription{##1}}}}}%
+        \ifdefvoid{\local@educationstart}{\def\local@educationstart{##1}}{%
+        \ifdefvoid{\local@educationend}{\def\local@educationend{##1}}{%
+        \ifdefvoid{\local@educationuniversity}{\def\local@educationuniversity{##1}}{%
+        \ifdefvoid{\local@educationdegree}{\def\local@educationdegree{##1}}{%
+                                           \def\local@educationdescription{##1}}}}}%
     }\docsvlist{#1}%
     %
-    \formatted{dimtext}{bold}{+0}{\@educationdegree}\par\vspace{1mm}%
-    \formatted{dimtext}{smallcase}{+0}{\@educationuniversity}\hfill%
-    \formatted{dimtext}{regular}{+0}{\@educationstart{ -- }\@educationend}\ifdefempty{\@educationdescription}{}{\par\vspace{2mm}%
-    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@educationdescription}}\par\vspace{3mm}%
+    \formatted{dimtext}{bold}{+0}{\local@educationdegree}\par\vspace{1mm}%
+    \formatted{dimtext}{smallcase}{+0}{\local@educationuniversity}\hfill%
+    \formatted{dimtext}{regular}{+0}{\local@educationstart{ -- }\local@educationend}\ifdefempty{\local@educationdescription}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\local@educationdescription}}\par\vspace{3mm}%
 }}
 
 % Make the résumé right column's publications.
@@ -992,16 +992,16 @@
 %
 \newcommand{\@makepublicationentry}[1]{{%
     \renewcommand{\do}[1]{% Iterate over the entry to recover values.
-        \ifdefvoid{\@publicationdate}{\def\@publicationdate{##1}}{%
-        \ifdefvoid{\@publicationtitle}{\def\@publicationtitle{##1}}{%
-        \ifdefvoid{\@publicationlink}{\def\@publicationlink{##1}}{%
-                                      \def\@publicationdescription{##1}}}}%
+        \ifdefvoid{\local@publicationdate}{\def\local@publicationdate{##1}}{%
+        \ifdefvoid{\local@publicationtitle}{\def\local@publicationtitle{##1}}{%
+        \ifdefvoid{\local@publicationlink}{\def\local@publicationlink{##1}}{%
+                                           \def\local@publicationdescription{##1}}}}%
     }\docsvlist{#1}%
     %
-    \formatted{dimtext}{bold}{+0}{\@publicationtitle}\par\vspace{1mm}%
-    \formattedlink{highlight}{regular}{+0}{\@publicationlink}{}\hfill%
-    \formatted{dimtext}{regular}{+0}{\@publicationdate}\ifdefempty{\@publicationdescription}{}{\par\vspace{2mm}%
-    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\@publicationdescription}}\par\vspace{3mm}%
+    \formatted{dimtext}{bold}{+0}{\local@publicationtitle}\par\vspace{1mm}%
+    \formattedlink{highlight}{regular}{+0}{\local@publicationlink}{}\hfill%
+    \formatted{dimtext}{regular}{+0}{\local@publicationdate}\ifdefempty{\local@publicationdescription}{}{\par\vspace{2mm}%
+    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\local@publicationdescription}}\par\vspace{3mm}%
 }}
 
 % Utility methods
@@ -1035,7 +1035,7 @@
 %     * Line width
 %
 \newcommand{\@hlinefill}[1]{%
-    \def\@foo{\leavevmode\leaders\hrule height #1\hfill\kern\z@}\@foo%
+    \def\local@foo{\leavevmode\leaders\hrule height #1\hfill\kern\z@}\local@foo%
 }
 
 % A command used internally to create circles inline.
@@ -1083,20 +1083,20 @@
 %     * A string to compare against some cases
 %
 \newenvironment{@stringswitch}[1]{%
-    \def\@switched{}%
+    \def\local@switched{}%
     % A case to be matched.
     %
     % Arguments:
     %     * A string to compare
     %     * The result to use if comparison is true
     %
-    \renewcommand{\@case}[2]{\ifdefempty{\@switched}{\ifstrequal{#1}{##1}{##2\def\@switched{true}}{}}{}}%
+    \renewcommand{\@case}[2]{\ifdefempty{\local@switched}{\ifstrequal{#1}{##1}{##2\def\local@switched{true}}{}}{}}%
     % A case to use if no matches are found.
     %
     % Arguments:
     %     * The result to use if no other case matches the given value
     %
-    \renewcommand{\@default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
+    \renewcommand{\@default}[1]{\ifdefempty{\local@switched}{##1\def\local@switched{true}}{}}%
 }{%
 }
 
@@ -1110,7 +1110,7 @@
         \ClassError{Résumé}{Num switch with non number '#1'}%
         {Num switch can only handle numbers.\MessageBreak}%
     }%
-    \def\@switched{}%
+    \def\local@switched{}%
     % A case to be matched.
     %
     % Arguments:
@@ -1123,14 +1123,14 @@
             \ClassError{Résumé}{Num switch case with non number '##2'}%
             {Num switch can only handle numbers.\MessageBreak}%
         }%
-        \ifdefempty{\@switched}{\ifdimcomp{#1 pt}{##1}{##2 pt}{##3\def\@switched{true}}{}}{}%
+        \ifdefempty{\local@switched}{\ifdimcomp{#1 pt}{##1}{##2 pt}{##3\def\local@switched{true}}{}}{}%
     }%
     % A case to use if no matches are found.
     %
     % Arguments:
     %     * The result to use if no other case matches the given value
     %
-    \renewcommand{\@default}[1]{\ifdefempty{\@switched}{##1\def\@switched{true}}{}}%
+    \renewcommand{\@default}[1]{\ifdefempty{\local@switched}{##1\def\local@switched{true}}{}}%
 }{%
 }
 
