@@ -37,5 +37,5 @@ interactivepdf:
 	pdflatex example.tex -pdf
 
 clean:
-	rm -rf *.pdf *.log *.aux *.out
+	rm -rf *.aux *.log *.out *.pdf *.upa *.upb
 	find -regex '^.+\-[0-9]+\.png' -delete
