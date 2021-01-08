@@ -1,3 +1,13 @@
+################################################################################
+# A series of recipes used to build the example Résumé.                        #
+#                                                                              #
+# Author:   Kip (https://github.com/kip93/).                                   #
+# Source:   https://github.com/kip93/resume/                                   #
+# License:  BSD 3-Clause                                                       #
+# Created:  2020-09-27                                                         #
+# Updated:  2021-01-07                                                         #
+################################################################################
+
 # This is only intended to be used to build the example for this repo, but might
 # prove to be of help to the more curious. This shows how to compile the LaTeX
 # file and clean up, as well as how to create preview images.
