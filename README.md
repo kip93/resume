@@ -1,16 +1,32 @@
-# My own Résumé LaTeX template
+<!----------------------------------------------------------------------------->
+<!-- Readme for GitHub repo.                                                 -->
+<!--                                                                         -->
+<!-- Author:   Kip (https://github.com/kip93/).                              -->
+<!-- Source:   https://github.com/kip93/resume/                              -->
+<!-- License:  BSD 3-Clause                                                  -->
+<!-- Created:  2020-09-27                                                    -->
+<!-- Updated:  2021-01-07                                                    -->
+<!----------------------------------------------------------------------------->
 
-[![Made with LaTeX badge](https://img.shields.io/badge/Made%20with-LaTeX-blue?style=flat-square)](https://github.com/kip93/resume/search?l=tex)
-[![License badge](https://img.shields.io/github/license/kip93/resume?style=flat-square)](./LICENSE)
-[![GitHub repo stars badge](https://img.shields.io/github/stars/kip93/resume?style=flat-square)](https://github.com/kip93/resume/stargazers)
-[![GitHub repo hit count badge](http://hits.dwyl.com/kip93/resume.svg)](https://github.com/kip93/resume)
+# My own LaTeX Résumé template
 
-[![GitHub contributors count badge](https://img.shields.io/github/contributors/kip93/resume?style=flat-square)](https://github.com/kip93/resume/graphs/contributors)
-[![GitHub commit activity badge](https://img.shields.io/github/commit-activity/m/kip93/resume?style=flat-square)](https://github.com/kip93/resume/graphs/commit-activity)
-[![GitHub last commit badge](https://img.shields.io/github/last-commit/kip93/resume?style=flat-square)](https://github.com/kip93/resume/commits/main)
-[![GitHub issues badge](https://img.shields.io/github/issues/kip93/resume?style=flat-square)](https://github.com/kip93/resume/issues)
-[![GitHub pull requests badge](https://img.shields.io/github/issues-pr/kip93/resume?style=flat-square)](https://github.com/kip93/resume/pulls)
-[![GitHub code size badge](https://img.shields.io/github/languages/code-size/kip93/resume?style=flat-square)](https://github.com/kip93/resume)
+<!-- Mostly constant stuff. Cache of a year for the first 2, and an hour for the rest. -->
+[![Written in LaTeX badge](https://img.shields.io/badge/Written%20in-LaTeX-B13959?style=flat&cacheSeconds=31556952)](https://github.com/kip93/resume/search?l=tex)
+[![Made with love badge](https://img.shields.io/badge/Made%20with-%E2%99%A5-B13959?style=flat&cacheSeconds=31556952)](./LICENSE)
+[![License badge](https://img.shields.io/github/license/kip93/resume?style=flat&label=License&color=B13959&cacheSeconds=3600)](./LICENSE)
+[![Code size badge](https://img.shields.io/github/languages/code-size/kip93/resume?style=flatt&label=Size&color=B13959&cacheSeconds=3600)](https://github.com/kip93/resume)
+
+<!-- Let's be honest, no need to update these very often either. Cached for 15 minutes. -->
+[![Contributors count badge](https://img.shields.io/github/contributors/kip93/resume?style=flat&label=Contributors&color=42853D&cacheSeconds=900)](https://github.com/kip93/resume/graphs/contributors)
+[![Repo watchers badge](https://img.shields.io/github/watchers/kip93/resume?style=flat&label=Watchers&color=42853D&cacheSeconds=900)](https://github.com/kip93/resume/watchers)
+[![Repo stars badge](https://img.shields.io/github/stars/kip93/resume?style=flat&label=Stars&color=42853D&cacheSeconds=900)](https://github.com/kip93/resume/stargazers)
+[![Repo forks badge](https://img.shields.io/github/forks/kip93/resume?style=flat&label=Forks&color=42853D&cacheSeconds=900)](https://github.com/kip93/resume/network/members)
+
+<!-- Relatively "volatile" badges. Cached for a minute. -->
+[![Commit activity badge](https://img.shields.io/github/commit-activity/m/kip93/resume?style=flat&label=Commit%20activity&color=067CC1&cacheSeconds=60)](https://github.com/kip93/resume/graphs/commit-activity)
+[![Last commit badge](https://img.shields.io/github/last-commit/kip93/resume?style=flat&label=Last%20commit&color=067CC1&cacheSeconds=60)](https://github.com/kip93/resume/commits/main)
+[![Issues badge](https://img.shields.io/github/issues/kip93/resume?style=flat&label=Issues&color=067CC1&cacheSeconds=60)](https://github.com/kip93/resume/issues)
+[![Pull requests badge](https://img.shields.io/github/issues-pr/kip93/resume?style=flat&label=PRs&color=067CC1&cacheSeconds=60)](https://github.com/kip93/resume/pulls)
 
 A LaTeX Résumé template designed for my own use, and released under the
 [BSD-3-Clause license](./LICENSE) for everyone to enjoy.
@@ -19,12 +35,15 @@ A LaTeX Résumé template designed for my own use, and released under the
 
 Here is an example of how the final résumé looks.
 
+<!-- God damn, Jimmie! This is some serious gourmet shit! -->
 [![Résumé example](./example-1.png)](./example.pdf)
 
 (Configuration for this example can be found [here](./example.tex))
 
 ## How to use
 
+<!-- No clue on how to do this on Windows :/ -->
+<!-- * Freedom penguin noises intensify * )? -->
 These instructions assume that you are using a Unix based system (OSx, Linux,
 BSD, et cetera) and that you have a full TeX distribution set up (if you don't
 have one, I recommend [TeX Live](http://tug.org/texlive/)).
@@ -49,8 +68,8 @@ depending on what you want to change this will end up being much more advanced
 task than simply editing the `.tex` file described in the previous section.
 
 I've tried to add documentation and comment the file wherever possible, but
-you'll need to have a at least a good grasp on the LaTeX basics to be able to
-make any significant edits.
+you'll need to have at least a good grasp on the LaTeX basics to be able to
+make any significant edits.<!-- i.e. May the force be with you. -->
 
 ## Dependencies
 
@@ -72,8 +91,7 @@ used. Older versions might still work, but are untested.
 
 ## Attributions
 
-These are resources used for creating this template, which either require
-attribution, or I felt should be mentioned.
+These are external resources used for creating this template.
 
  * The [placeholder profile picture](./example.png) is taken from
    [here](https://commons.wikimedia.org/wiki/File:Portrait_Placeholder.png) and
@@ -83,8 +101,14 @@ attribution, or I felt should be mentioned.
  * Many parts of this template were ~~stolen from~~ inspired by other great
    LaTeX templates, all of which are worth checking out:
    * [posquit0's](https://github.com/posquit0)
-     [Awesome CV](https://github.com/posquit0/Awesome-CV).
+     [Awesome CV](https://github.com/posquit0/Awesome-CV)
+     ([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
+     license).
    * [spagnuolocarmine's](https://github.com/spagnuolocarmine)
-     [Twenty Seconds Curriculum Vitae](https://github.com/spagnuolocarmine/TwentySecondsCurriculumVitae-LaTex).
+     [Twenty Seconds Curriculum Vitae](https://github.com/spagnuolocarmine/TwentySecondsCurriculumVitae-LaTex)
+     ([MIT](https://github.com/spagnuolocarmine/TwentySecondsCurriculumVitae-LaTex/blob/master/LICENSE)
+     license).
    * [GiantMolecularCloud's](https://github.com/GiantMolecularCloud)
-     [Resume](https://github.com/GiantMolecularCloud/my-resume).
+     [Resume](https://github.com/GiantMolecularCloud/my-resume)
+     ([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
+     license).
