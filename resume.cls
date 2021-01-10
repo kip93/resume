@@ -709,7 +709,7 @@
 % Make the résumé header's text.
 %
 \newcommand{\@makepersonalinfo}[0]{%
-    \begin{textblock*}{0.69\paperwidth}(10mm, 4mm)\begin{flushright}
+    \begin{textblock*}{0.67\paperwidth}(10mm, 4mm)\begin{flushright}
         % Name.
         {%
             \ifdefvoid{\@lastname}{%
