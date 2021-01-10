@@ -5,7 +5,7 @@
 % Source:   https://github.com/kip93/resume/                                   %
 % License:  BSD 3-Clause                                                       %
 % Created:  2020-09-27                                                         %
-% Updated:  2020-12-23                                                         %
+% Updated:  2021-01-10                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -664,12 +664,15 @@
         {Check the 'name' command.\MessageBreak}%
     }{}}%
     \hypersetup{
-        pdfauthor={\@lastname, \@firstname},
-        pdftitle={\@lastname, \@firstname: Résumé},
-        pdfsubject={Résumé for \@firstname{ }\@lastname},
-        pdfkeywords={Résumé, Resume, CV},
-        pdfcreator={https://github.com/kip93/resume/},
-        pdfproducer={https://github.com/kip93/},
+        pdftitle={Résumé},% PDF file title.
+        pdfauthor={\@lastname, \@firstname},% The name of the PDF author.
+        pdfsubject={% PDF's description.
+            Résumé for \@firstname{ }\@lastname.
+            Based on a LaTeX Résumé template, which is made freely available @
+            https://github.com/kip93/resume/ through the BSD-3 license.
+        },
+        pdfkeywords={Résumé, Resume, CV},% A set of keywords categorising the PDF's content.
+        pdfcreator={LaTeX},
     }%
 }
 
