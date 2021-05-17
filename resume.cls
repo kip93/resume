@@ -5,7 +5,7 @@
 % Source:   https://github.com/kip93/resume/                                   %
 % License:  BSD 3-Clause                                                       %
 % Created:  2020-09-27                                                         %
-% Updated:  2021-01-10                                                         %
+% Updated:  2021-05-16                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{resume}[2020-12-23 My own Résumé/CV class.]
+\ProvidesClass{resume}[2021-05-16 My own Résumé/CV class.]
 \LoadClass{article}[]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,7 +74,7 @@
 \definecolor{@darkhighlight}  {HTML} {4D6699}
 \definecolor{@lighthighlight} {HTML} {AAC2F2}
 
-% NOTE: This pallete was created taking accesibility into consideration.
+% NOTE: This pallete was created taking accessibility into consideration.
 % The tool used to check the readability of the text was the website
 % https://www.aremycoloursaccessible.com/.
 %
@@ -90,7 +90,7 @@
 % 4D6699    X      X      X      O      X      X
 % AAC2F2    O      O      X      X      X      X
 %
-% The crosses represent bad colour combinations, while the Os are for accesible
+% The crosses represent bad colour combinations, while the Os are for accessible
 % ones.
 
 % These are redefined per section to have the correct accessible colours
@@ -140,14 +140,6 @@
 % Add tools to allow more complex LaTeX structures.
 % https://ctan.org/pkg/etoolbox
 \RequirePackage{etoolbox}[]
-
-% Suppress warnings
-% ---------------------------------------------------------------------------- %
-
-\RequirePackage{silence}
-
-% This is a false positive, already validated that alignment is correct.
-\WarningFilter{textpos}{environment textblock* not in vertical mode.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % User facing commands                                                         %
@@ -239,14 +231,14 @@
     }{}%
 }
 
-% Define the Linkedin username (optional).
+% Define the LinkedIn username (optional).
 %
 % Arguments:
-%     * A Linkedin username
+%     * A LinkedIn username
 %
 \newcommand{\linkedin}[1]{%
     \def\@linkedin{#1}\ifdefempty{\@linkedin}{%
-        \ClassError{Résumé}{Linkedin username '#1' is empty}%
+        \ClassError{Résumé}{LinkedIn username '#1' is empty}%
         {The format for the command is {username}.\MessageBreak}%
     }{}%
 }
@@ -483,15 +475,12 @@
 
 % Create the Résumé.
 %
-\newenvironment{resume}{%
-    \document         % Equivalent to `\begin{document}`.
-}{%
+\newenvironment{resume}{}{%
     \@setmetadata     % Sets the PDF metadata.
     \@makebackground  % Sets the coloured background for the document.
     \@makeheader      % Create the top header part of the document.
     \@makeleft        % Create the left column of the document.
     \@makeright       % Create the right main column of the document.
-    \enddocument      % Equivalent to `\end{document}`.
 }
 
 % Utility methods
@@ -683,9 +672,9 @@
 %
 \newcommand{\@makebackground}[0]{%
     % Left column.
-    \@makerectangleoverlay{@white}{north west}{70mm}{\paperheight + 10mm}{0mm, 5mm}%
+    \@makerectangleoverlay{@white}{north west}{74mm}{\paperheight + 10mm}{0mm, 5mm}%
     % Header.
-    \@makerectangleoverlay{@darkgray}{north}{\paperwidth + 10mm}{60mm}{\paperwidth / 2, 5mm}%
+    \@makerectangleoverlay{@darkgray}{north}{\paperwidth + 10mm}{52mm}{\paperwidth / 2, 5mm}%
 }
 
 % Header
@@ -709,7 +698,8 @@
 % Make the résumé header's text.
 %
 \newcommand{\@makepersonalinfo}[0]{%
-    \begin{textblock*}{0.67\paperwidth}(10mm, 4mm)\begin{flushright}
+
+    \begin{textblock*}{0.65\paperwidth}(10mm, 0mm)\begin{flushright}
         % Name.
         {%
             \ifdefvoid{\@lastname}{%
@@ -786,9 +776,9 @@
             line width=3mm,
             inner sep=0mm,
             anchor=north east,
-        ] at (\paperwidth - 10mm, -1mm){%
+        ] at (\paperwidth - 10mm, 1mm){%
             \includegraphics[
-                width=40mm,
+                width=45mm,
             ]{\@profilepicture}%
         };
     \end{tikzpicture}%
@@ -809,9 +799,10 @@
     % Commands for section titles coloured according to background.
     \newcommand{\@leftsection}[1]{\@newsection{text}{##1}}%
     \newcommand{\@leftsubsection}[1]{\@newsubsection{highlight}{##1}}%
+
     %
     % Create the left column.
-    \begin{textblock*}{62mm}(4mm, 52mm)\begin{flushleft}%
+    \begin{textblock*}{62mm}(8mm, 44mm)\begin{flushleft}%
         \@makesummary%
         \@makeskills%
     \end{flushleft}\end{textblock*}%
@@ -903,9 +894,10 @@
     \colorlet{highlight}     {@darkhighlight}%
     % Commands for section titles coloured according to background.
     \newcommand{\@rightsection}[1]{\@newsection{text}{##1}}%
+
     %
     % Create the right column.
-    \begin{textblock*}{132mm}(74mm, 52mm)\begin{flushleft}%
+    \begin{textblock*}{124mm}(78mm, 44mm)\begin{flushleft}%
         \@makeexperience%
         \@makeeducation%
         \@makepublications%
