@@ -5,7 +5,7 @@
 <!-- Source:   https://github.com/kip93/resume/                              -->
 <!-- License:  BSD 3-Clause                                                  -->
 <!-- Created:  2020-09-27                                                    -->
-<!-- Updated:  2021-01-07                                                    -->
+<!-- Updated:  2021-08-25                                                    -->
 <!----------------------------------------------------------------------------->
 
 # My own LaTeX Résumé template
@@ -76,15 +76,16 @@ make any significant edits.<!-- i.e. May the force be with you. -->
 These are the dependencies for this project, as well as which versions they were
 used. Older versions might still work, but are untested.
 
- * [TeX Live](https://www.tug.org/texlive/) >= `2020` (or other TeX
+ * [TeX Live](https://www.tug.org/texlive/) >= `2021` (or other TeX
    distribution, with the packages defined beneath)
    * [etoolbox](https://ctan.org/pkg/etoolbox) >= `2.5k`
    * [pdfcomment](https://ctan.org/pkg/pdfcomment) >= `2.4a`
+   * [ragged2e](https://ctan.org/pkg/ragged2e) >= `3.0`
    * [textpos](https://ctan.org/pkg/textpos) >= `1.10`
-   * [TikZ](https://www.ctan.org/pkg/tikz) >= `3.1.7a`
+   * [TikZ](https://www.ctan.org/pkg/tikz) >= `3.1.9a`
    * [xcolor](https://ctan.org/pkg/xcolor) >= `2.12`
-   * [xstring](https://ctan.org/pkg/xstring) >= `1.83`
- * [Poppler utils](https://poppler.freedesktop.org/) >= `20.09` (only needed to
+   * [xstring](https://ctan.org/pkg/xstring) >= `1.84`
+ * [Poppler utils](https://poppler.freedesktop.org/) >= `21.08` (only needed to
    create the example screenshot)
  * [GNU Make](https://www.gnu.org/software/make/) >= `4.3` (only to be able to
    use the [Makefile](./Makefile) to build the example)

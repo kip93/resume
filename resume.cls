@@ -5,7 +5,7 @@
 % Source:   https://github.com/kip93/resume/                                   %
 % License:  BSD 3-Clause                                                       %
 % Created:  2020-09-27                                                         %
-% Updated:  2021-05-16                                                         %
+% Updated:  2021-08-26                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{resume}[2021-05-16 My own Résumé/CV class.]
+\ProvidesClass{resume}[2021-08-26 My own Résumé/CV class.]
 \LoadClass{article}[]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,8 +25,9 @@
 
 % Set up font (Iwona Light Condensed).
 % https://tug.org/FontCatalogue/iwonalightcondensed/
-\RequirePackage{iwona}[light, condensed, math, ]
+\RequirePackage{iwona}[light, condensed, ]
 \RequirePackage{fontenc}[T1, ]
+\setlength{\emergencystretch}{10pt}
 
 % Geometry
 % ---------------------------------------------------------------------------- %
@@ -113,7 +114,7 @@
 
 % Make sure that hyperlink support is loaded.
 % https://www.overleaf.com/learn/latex/hyperlinks
-\RequirePackage{hyperref}
+\RequirePackage{hyperref}[]
 
 \hypersetup{
     hidelinks,  % Disable link auto format, allowing to customise links look
@@ -125,14 +126,21 @@
 
 % Add tools for string manipulation.
 % https://ctan.org/pkg/xstring
-\usepackage{xstring}
+\usepackage{xstring}[]
 
 % PDF annotation
 % ---------------------------------------------------------------------------- %
 
 % Adds support for tooltips and comments.
 % https://ctan.org/pkg/pdfcomment
-\RequirePackage{pdfcomment}
+\RequirePackage{pdfcomment}[]
+
+% Text alignment
+% ---------------------------------------------------------------------------- %
+
+% Adds better support for text alignment.
+% https://ctan.org/pkg/ragged2e
+\RequirePackage{ragged2e}[]
 
 % Extra tools
 % ---------------------------------------------------------------------------- %
@@ -740,22 +748,22 @@
             \formattedlink{dimtext}{regular}{+1}{tel:\@phonenumber}{\@phonedisplay}%
         % Linkedin.
         }\par\vspace{2mm}\ifdefvoid{\@linkedin}{%
-            \ClassWarning{Résumé}{Linkedin username is missing (URL will be skipped)}%
+            \ClassInfo{Résumé}{Linkedin username is missing (URL will be skipped)}%
         }{%
             \formattedlink{highlight}{regular}{+1}{https://linkedin.com/in/\@linkedin/}{}%
         % GitHub.
         \par\vspace{2mm}}\ifdefvoid{\@github}{%
-            \ClassWarning{Résumé}{GitHub username is missing (URL will be skipped)}%
+            \ClassInfo{Résumé}{GitHub username is missing (URL will be skipped)}%
         }{%
             \formattedlink{highlight}{regular}{+1}{https://github.com/\@github/}{}%
         % GitLab.
         \par\vspace{2mm}}\ifdefvoid{\@gitlab}{%
-            \ClassWarning{Résumé}{GitLab username is missing (URL will be skipped)}%
+            \ClassInfo{Résumé}{GitLab username is missing (URL will be skipped)}%
         }{%
             \formattedlink{highlight}{regular}{+1}{https://gitlab.com/\@gitlab/}{}%
         % BitBucket.
         \par\vspace{2mm}}\ifdefvoid{\@bitbucket}{%
-            \ClassWarning{Résumé}{BitBucket username is missing (URL will be skipped)}%
+            \ClassInfo{Résumé}{BitBucket username is missing (URL will be skipped)}%
         }{%
             \formattedlink{highlight}{regular}{+1}{https://bitbucket.com/\@bitbucket/}{}%
         \par\vspace{2mm}}%
@@ -812,11 +820,11 @@
 %
 \newcommand{\@makesummary}[0]{%
     \ifdefvoid{\@summary}{%
-        \ClassWarning{Résumé}{Summary text is not present (section will be skipped)}%
+        \ClassInfo{Résumé}{Summary text is not present (section will be skipped)}%
     }{%
-        \@leftsection{About me}{\vspace{-3mm}\setlength{\parskip}{3mm}%
-            \formatted{dimtext}{regular}{+0}{\@summary}%
-        }\par\vspace{4mm}%
+        \@leftsection{About me}{\vspace{-6mm}\setlength{\parskip}{3mm}%
+            \begin{justify}\formatted{dimtext}{regular}{+0}{\@summary}\end{justify}%
+        }\par%
     }%
 }
 
@@ -913,7 +921,7 @@
                 \@makeexperienceentry{##1}%
             }\dolistcsloop{@experiencelist}%
         }\vspace{1mm}%
-    }{\ClassWarning{Résumé}{No experience given (section will be skipped)}}%
+    }{\ClassInfo{Résumé}{No experience given (section will be skipped)}}%
 }}
 
 % Make the résumé right column's single experience entry.
@@ -933,7 +941,7 @@
     \formatted{dimtext}{bold}{+0}{\local@jobemployer}\par\vspace{1mm}%
     \formatted{dimtext}{smallcase}{+0}{\local@jobtitle}\hfill%
     \formatted{dimtext}{regular}{+0}{\local@jobstart{ -- }\local@jobend}\ifdefempty{\local@jobdescription}{}{\par\vspace{2mm}%
-    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\local@jobdescription}}\par\vspace{3mm}%
+    \formatted{dimtext}{italic}{+0}{\vspace{-11mm}\setlength{\parskip}{3mm}\begin{justify}\local@jobdescription\end{justify}\vspace{-3mm}}}\par\vspace{3mm}%
 }}
 
 % Make the résumé right column's education.
@@ -945,7 +953,7 @@
                 \@makeeducationentry{##1}%
             }\dolistcsloop{@educationlist}%
         }\vspace{1mm}%
-    }{\ClassWarning{Résumé}{No education given (section will be skipped)}}%
+    }{\ClassInfo{Résumé}{No education given (section will be skipped)}}%
 }}
 
 % Make the résumé right column's single education entry.
@@ -965,7 +973,7 @@
     \formatted{dimtext}{bold}{+0}{\local@educationdegree}\par\vspace{1mm}%
     \formatted{dimtext}{smallcase}{+0}{\local@educationuniversity}\hfill%
     \formatted{dimtext}{regular}{+0}{\local@educationstart{ -- }\local@educationend}\ifdefempty{\local@educationdescription}{}{\par\vspace{2mm}%
-    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\local@educationdescription}}\par\vspace{3mm}%
+    \formatted{dimtext}{italic}{+0}{\vspace{-11mm}\setlength{\parskip}{3mm}\begin{justify}\local@educationdescription\end{justify}\vspace{-3mm}}}\par\vspace{3mm}%
 }}
 
 % Make the résumé right column's publications.
@@ -977,7 +985,7 @@
                 \@makepublicationentry{##1}%
             }\dolistcsloop{@publicationslist}%
         }\vspace{1mm}%
-    }{\ClassWarning{Résumé}{No publications given (section will be skipped)}}%
+    }{\ClassInfo{Résumé}{No publications given (section will be skipped)}}%
 }}
 
 % Make the résumé right column's single publication entry.
@@ -996,7 +1004,7 @@
     \formatted{dimtext}{bold}{+0}{\local@publicationtitle}\par\vspace{1mm}%
     \formattedlink{highlight}{regular}{+0}{\local@publicationlink}{}\hfill%
     \formatted{dimtext}{regular}{+0}{\local@publicationdate}\ifdefempty{\local@publicationdescription}{}{\par\vspace{2mm}%
-    \formatted{dimtext}{italic}{+0}{\setlength{\parskip}{3mm}\local@publicationdescription}}\par\vspace{3mm}%
+    \formatted{dimtext}{italic}{+0}{\vspace{-11mm}\setlength{\parskip}{3mm}\begin{justify}\local@publicationdescription\end{justify}\vspace{-3mm}}}\par\vspace{3mm}%
 }}
 
 % Utility methods
